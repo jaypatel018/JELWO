@@ -77,6 +77,7 @@ const Navbar = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
     // Typing placeholder animation
     const placeholderItems = ["Mangalsutra...", "Gold Rings...", "Diamond Earrings...", "Bangles...", "Necklace...", "Bracelets..."];
@@ -316,15 +317,20 @@ const Navbar = () => {
       {/* Right - Icons */}
       <div className="navbar-icons-right">
         <SignedOut>
-          <Link to='/sign-in' className='icon-item' title="Sign In">
+          <Link to='/sign-in' className='icon-item mobile-hide-profile' title="Sign In">
             <img src="/img/prologo.svg" alt="Profile" style={{width:'24px', height:'24px'}} />
           </Link>
         </SignedOut>
         <SignedIn>
-          <Link to='/profile' className='icon-item' title="Profile">
+          <Link to='/profile' className='icon-item mobile-hide-profile' title="Profile">
             <img src="/img/prologo.svg" alt="Profile" style={{width:'24px', height:'24px'}} />
           </Link>
         </SignedIn>
+
+        {/* Mobile Search Icon — before wishlist */}
+        <button className="mobile-search-icon-btn" onClick={() => setMobileSearchOpen(true)}>
+          <i className="fa-solid fa-search"></i>
+        </button>
         
         <Link to="/wishlist" className='icon-item' title="Wishlist">
           <div className="icon-badge-wrap">
@@ -631,6 +637,66 @@ const Navbar = () => {
   </div>
 </div>
 {/* modal end */}
+
+{/* Mobile Search Modal */}
+{mobileSearchOpen && (
+  <div className="mobile-search-overlay" onClick={(e) => { if (e.target.classList.contains('mobile-search-overlay')) { setMobileSearchOpen(false); clearSearch(); }}}>
+    <div className="mobile-search-modal">
+      <div className="mobile-search-header">
+        <div className="mobile-search-input-wrap">
+          <i className="fa-solid fa-search mobile-search-modal-icon"></i>
+          <input
+            type="text"
+            className="mobile-search-modal-input"
+            placeholder="Search jewellery..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && searchQuery.trim()) {
+                setMobileSearchOpen(false);
+                setShowSearchDropdown(false);
+                navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                clearSearch();
+              }
+            }}
+          />
+          {searchQuery && <i className="fa-solid fa-xmark mobile-search-clear" onClick={clearSearch}></i>}
+        </div>
+        <button className="mobile-search-close" onClick={() => { setMobileSearchOpen(false); clearSearch(); }}>Cancel</button>
+      </div>
+
+      <div className="mobile-search-results">
+        {isSearching ? (
+          <div className="mobile-search-loading">
+            <div className="spinner-border spinner-border-sm text-danger"></div>
+            <span>Searching...</span>
+          </div>
+        ) : searchResults.length > 0 ? (
+          searchResults.map(product => (
+            <div key={product._id} className="mobile-search-item" onClick={() => { handleResultClick(product._id); setMobileSearchOpen(false); }}>
+              <img src={`${import.meta.env.VITE_API_IMAGE}/${product.frontImg}`} alt={product.title} />
+              <div>
+                <p>{product.title}</p>
+                <span>₹{product.price}</span>
+              </div>
+            </div>
+          ))
+        ) : searchQuery ? (
+          <div className="mobile-search-empty">
+            <i className="fa-solid fa-search"></i>
+            <p>No results for "{searchQuery}"</p>
+          </div>
+        ) : (
+          <div className="mobile-search-empty">
+            <i className="fa-solid fa-gem"></i>
+            <p>Search for rings, necklaces, earrings...</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+)}
 
    </>
   )
