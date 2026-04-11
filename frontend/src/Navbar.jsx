@@ -214,7 +214,7 @@ const Navbar = () => {
     allowTouchMove={false}
     className="announcement-swiper"
   >
-    <SwiperSlide><span>✦ FREE STUDS worth ₹1495 on orders above ₹2999</span></SwiperSlide>
+    <SwiperSlide><span>✦ FREE worth ₹1495 on orders above ₹2999</span></SwiperSlide>
     <SwiperSlide><span>🚚 FREE SHIPPING on all orders above ₹999</span></SwiperSlide>
     <SwiperSlide><span>💎 Use code <strong>FIRST10</strong> for 10% off your first order</span></SwiperSlide>
     <SwiperSlide><span>🎁 Gift wrapping available on all orders</span></SwiperSlide>
