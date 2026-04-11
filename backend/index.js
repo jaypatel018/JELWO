@@ -18,15 +18,23 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [
-    "http://localhost:5174",
-    "http://localhost:5173",
-    "http://localhost:5175",
-    "http://localhost:5176",
-    "https://jelwo-admin.vercel.app",
-    process.env.FRONTEND_URL,
-    process.env.ADMIN_URL,
-  ].filter(Boolean),
+  origin: (origin, callback) => {
+    const allowed = [
+      "http://localhost:5174",
+      "http://localhost:5173",
+      "http://localhost:5175",
+      "http://localhost:5176",
+      process.env.FRONTEND_URL,
+      process.env.ADMIN_URL,
+    ].filter(Boolean);
+
+    // Allow all vercel.app subdomains + allowed list + no origin (Postman etc)
+    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
