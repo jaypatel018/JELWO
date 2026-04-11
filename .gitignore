@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment files - NEVER push these
+.env
+*/.env
+backend/.env
+frontend/.env
+Admin/.env
+
+# Build outputs
+dist/
+*/dist/
+build/
+*/build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads (optional - comment out if you want to push existing images)
+# backend/uploads/

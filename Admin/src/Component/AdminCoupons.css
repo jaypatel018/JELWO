@@ -1,0 +1,62 @@
+.ac-container { padding: 24px; background: #f4f6f9; min-height: 100vh; }
+
+.ac-header { display:flex; justify-content:space-between; align-items:center; background:white; border-radius:10px; padding:18px 24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+.ac-header h2 { margin:0; font-size:20px; font-weight:700; color:#1a1a2e; display:flex; align-items:center; gap:10px; }
+.ac-header h2 i { color:#4361ee; }
+.ac-add-btn { padding:9px 20px; background:#4361ee; color:white; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px; transition:background 0.2s; }
+.ac-add-btn:hover { background:#3451d1; }
+
+.ac-loading { text-align:center; padding:60px; font-size:16px; color:#888; }
+.ac-loading i { font-size:28px; color:#4361ee; margin-right:10px; }
+.ac-empty { text-align:center; padding:60px; background:white; border-radius:10px; }
+.ac-empty i { font-size:48px; color:#ddd; display:block; margin-bottom:12px; }
+.ac-empty p { color:#aaa; font-size:15px; }
+
+/* Form */
+.ac-form-card { background:white; border-radius:10px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+.ac-form-card h3 { margin:0 0 20px; font-size:16px; font-weight:700; color:#1a1a2e; }
+.ac-form { display:flex; flex-direction:column; gap:16px; }
+.ac-form-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+.ac-field { display:flex; flex-direction:column; gap:6px; }
+.ac-field label { font-size:13px; font-weight:600; color:#374151; }
+.ac-field input, .ac-field select { padding:9px 12px; border:1.5px solid #e0e0e0; border-radius:8px; font-size:14px; outline:none; transition:border-color 0.2s; }
+.ac-field input:focus, .ac-field select:focus { border-color:#4361ee; }
+.ac-field-toggle { justify-content:center; align-items:flex-start; }
+.ac-save-btn { padding:10px 28px; background:#4361ee; color:white; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; width:fit-content; transition:background 0.2s; }
+.ac-save-btn:hover { background:#3451d1; }
+.ac-save-btn:disabled { opacity:0.6; cursor:not-allowed; }
+
+/* Toggle switch */
+.ac-toggle { position:relative; display:inline-block; width:44px; height:24px; margin-top:4px; }
+.ac-toggle input { opacity:0; width:0; height:0; }
+.ac-toggle-slider { position:absolute; cursor:pointer; inset:0; background:#ccc; border-radius:24px; transition:0.3s; }
+.ac-toggle-slider:before { content:''; position:absolute; width:18px; height:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:0.3s; }
+.ac-toggle input:checked + .ac-toggle-slider { background:#4361ee; }
+.ac-toggle input:checked + .ac-toggle-slider:before { transform:translateX(20px); }
+
+/* Table */
+.ac-table-wrap { background:white; border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,0.07); overflow:hidden; }
+.ac-table { width:100%; border-collapse:collapse; }
+.ac-table thead { background:#f8f9fa; border-bottom:2px solid #eee; }
+.ac-table th { padding:13px 16px; font-size:12px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:0.5px; text-align:left; }
+.ac-table tbody tr { border-bottom:1px solid #f2f2f2; transition:background 0.15s; }
+.ac-table tbody tr:hover { background:#f8f9ff; }
+.ac-table td { padding:13px 16px; font-size:14px; color:#333; vertical-align:middle; }
+
+.ac-code { font-weight:700; color:#4361ee; font-family:monospace; font-size:13px; background:#eff3ff; padding:3px 8px; border-radius:4px; }
+.ac-value { font-weight:600; color:#1f2937; }
+.ac-expired { color:#ef4444; font-weight:600; }
+
+.ac-status-btn { padding:4px 12px; border-radius:20px; border:none; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+.ac-status-btn.active { background:#d1fae5; color:#065f46; }
+.ac-status-btn.active:hover { background:#a7f3d0; }
+.ac-status-btn.inactive { background:#fee2e2; color:#991b1b; }
+.ac-status-btn.inactive:hover { background:#fecaca; }
+
+.ac-actions { display:flex; gap:8px; }
+.ac-edit-btn { background:#eff3ff; border:none; border-radius:6px; padding:6px 10px; cursor:pointer; color:#4361ee; transition:background 0.2s; }
+.ac-edit-btn:hover { background:#dbeafe; }
+.ac-del-btn { background:#fef2f2; border:none; border-radius:6px; padding:6px 10px; cursor:pointer; color:#ef4444; transition:background 0.2s; }
+.ac-del-btn:hover { background:#fee2e2; }
+
+@media (max-width:768px) { .ac-form-row { grid-template-columns:1fr; } .ac-table-wrap { overflow-x:auto; } .ac-table { min-width:700px; } }

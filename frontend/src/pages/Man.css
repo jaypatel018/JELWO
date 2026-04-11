@@ -1,0 +1,17 @@
+.man-banner {
+  width: 100%;
+  height: 85vh;
+  overflow: hidden;
+}
+
+.man-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .man-banner { height: 50vh; }
+}

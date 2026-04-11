@@ -1,0 +1,82 @@
+.admin-login-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.45)
+    ),
+    url("https://images.unsplash.com/photo-1606760227091-3dd870d97f1d");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-login-card {
+  width: 380px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 35px 30px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.login-title {
+  font-weight: 600;
+  color: #2c2c2c;
+  margin-bottom: 5px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 25px;
+}
+
+.admin-field {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.admin-field i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #b08d57;
+  font-size: 14px;
+}
+
+.admin-field input {
+  width: 100%;
+  padding: 12px 12px 12px 38px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.admin-field input:focus {
+  border-color: #b08d57;
+  box-shadow: 0 0 0 2px rgba(176, 141, 87, 0.2);
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #b08d57, #e3caa5);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(176, 141, 87, 0.4);
+}

@@ -1,0 +1,72 @@
+.location{
+    background-image: url('img/about-banner.webp');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.img-1{
+    height: 100%;
+    width:100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.img-1 img{
+   transition: all 0.5s ease;
+}
+.img-1 img:hover{
+    transform: scale(1.1);
+}
+.social-icon span{
+    border:1px solid black;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid grey;
+    transition: all 0.5s ease;
+    margin-right: 4px;
+}
+.social-icon span:hover{
+    background-color: brown;
+    color: white;
+    border: none;
+}
+footer{
+    background-color: #f0e6f6;
+}
+.order-list{
+    display: grid;
+    gap:20px;
+    grid-template-columns: repeat(5,1fr);
+}
+@media (max-width:1000px){
+    .order-list{
+    display: grid;
+    gap:20px;
+    grid-template-columns: repeat(3,1fr);
+}
+}
+@media (max-width:700px){
+    .order-list{
+    display: grid;
+    gap:20px;
+    grid-template-columns: repeat(2,1fr);
+}
+}
+@media (max-width:576px){
+    .order-list{
+    display: grid;
+    gap:20px;
+    grid-template-columns: repeat(1,1fr);
+   
+}
+}
+.offcanvas-header{
+    background-color: black;
+    color: white;
+}
+.offcanvas-body{
+    padding:  0px;
+}
+.inr{
+   background-color: rgb(224, 179, 187);
+}

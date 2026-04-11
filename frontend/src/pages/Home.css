@@ -1,0 +1,149 @@
+/* ═══════════════════════════════════════════
+   HOME PAGE — merged CSS
+   (Modal, Hero, Services, Categories, Arrival,
+    Luxury, Brand, Video, Watch, Reviews)
+═══════════════════════════════════════════ */
+
+/* ── Modal ── */
+.modal-dialog { max-width: 600px !important; }
+.modal-body   { position: inherit !important; }
+.modal-header { border-bottom: none !important; }
+.search-bar input { width:100%; padding:10px; border-radius:50px; border:1px solid grey; outline:none; }
+.subs-btn { padding:11px 30px; border:none; background-color:brown; color:white; border-radius:50px; font-weight:500; width:100%; margin-top:10px; }
+.subrel { position:relative; }
+.subs { position:absolute; top:-11px; right:0; }
+@media (max-width:476px) { .subs { position:inherit; margin-top:10px; } }
+
+/* ── Hero ── */
+.main-relative { position:relative; }
+.main-absolute { position:absolute; left:0; right:0; bottom:50%; transform:translateY(50%); }
+.btn { border-radius:40px; padding:6px 20px; }
+.main-absolute h1 { font-size:70px; }
+.main-absolute p  { font-size:40px; }
+@media (max-width:776px) { .main-absolute h1 { font-size:40px; } .main-absolute p { font-size:30px; } }
+@media (max-width:509px) { .main-absolute h1 { font-size:25px; } .main-absolute p { font-size:10px; } .btn { border-radius:20px; padding:3px 10px; margin-bottom:10px; } }
+
+/* ── Services ── */
+.card-section { display:grid; grid-template-columns:repeat(4,1fr); gap:30px; }
+.service-box { display:flex; flex-direction:column; align-items:center; justify-content:flex-start; text-align:center; padding:30px 20px; min-height:220px; background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+.service-icon-wrapper { width:100px; height:100px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; flex-shrink:0; }
+.service-icon { width:100%; height:100%; object-fit:contain; }
+.service-title { font-size:18px; font-weight:600; color:#333; margin-bottom:10px; margin-top:0; min-height:24px; }
+.service-text  { font-size:14px; color:#666; margin:0; line-height:1.6; flex-grow:1; }
+@media (max-width:1200px) { .card-section { grid-template-columns:repeat(2,1fr); } .service-box { min-height:200px; } }
+@media (max-width:768px)  { .service-box { padding:25px 15px; min-height:180px; } .service-icon-wrapper { width:80px; height:80px; margin-bottom:15px; } .service-title { font-size:16px; } }
+@media (max-width:557px)  { .card-section { grid-template-columns:1fr; } .service-box { min-height:160px; } .service-icon-wrapper { width:70px; height:70px; } }
+
+/* ── Categories ── */
+.card { padding:80px 10px; border-bottom:1px solid grey; }
+.card-banner img { border-radius:10px; margin-top:20px; margin-bottom:30px; }
+.card-banner { position:relative; }
+.back { height:185px; }
+.card-content { position:absolute; background-color:white; display:flex; justify-content:center; align-items:center; height:170px; width:170px; bottom:50%; left:50%; transform:translate(-50%,50%); border-radius:50%; box-shadow:0 0 15px #33333326; }
+.card-content img { border-radius:50%; }
+.pre-count { padding:5px 10px; background-color:white; border-radius:50px; position:absolute; top:0; left:50%; transform:translate(-50%,0%); box-shadow:0 0 15px #33333326; transition:all 0.5s ease-in; }
+.card-banner:hover .pre-count { background-color:black; color:white; }
+.card-banner:hover .name { color:brown !important; }
+.card-banner:hover .card-content img { transform:scale(1.1); }
+.conatiner-section { padding:50px 20px; }
+
+/* ── Arrival ── */
+.design { border-radius:20px; width:100%; height:100%; transition:all 0.5s ease-in-out; }
+.btn1 { background-color:white; border:1px solid white; color:brown; padding:10px 25px; border-radius:50px; margin:20px 0; font-weight:500; }
+.btn1:hover { background-color:transparent; color:white; }
+.arrival-top { position:relative; width:100%; height:100%; overflow:hidden; border-radius:20px; }
+.arrival-top:hover .design { transform:scale(1.1); }
+.arrival-bottom { position:absolute; bottom:0%; left:50%; transform:translate(-50%,-30%); }
+.btn-m { background-color:brown; border:1px solid brown; color:white; padding:10px 25px; transition:all 0.5s ease-in-out; }
+.btn-m:hover { background-color:black; color:white; border:none; }
+.momentum-top { position:relative; width:100%; height:100%; overflow:hidden; border-radius:20px; }
+.momentum-top:hover .design { transform:scale(1.1); }
+.momentum-bottom { width:47%; position:absolute; top:0%; right:0%; transform:translate(-10%,50%); }
+@media (max-width:700px) { .momentum-bottom { width:77%; transform:translate(-5%,50%); } }
+@media (max-width:600px) { .momentum-bottom { width:100%; top:0; left:0; transform:translate(0%,10%); padding:0 20px; } }
+.order li { font-size:25px; }
+.order li:hover { color:brown; }
+
+/* ── Luxury / Product cards ── */
+.front-img { display:block; }
+.back-img  { display:none; }
+.img-content:hover .front-img { display:none; }
+.img-content:hover .back-img  { display:block; }
+.design-card { border:1px solid grey; border-radius:8px; background-color:white; }
+.img-content img { border-radius:8px; }
+.gold { color:orange; }
+.btn-add { padding:9px 5px; border-radius:50px; background-color:brown; color:white; border:none; transition:all 0.5s ease-in-out; }
+.btn-add:hover { background-color:brown; color:white; }
+.btn-add a { color:white; }
+.pre-inc { border:1px solid black; padding:2px 10px; border-radius:5px; background-color:green; color:white; border:none; }
+.img-content { position:relative; }
+.offer { position:absolute; top:0; left:0; transform:translate(50%,50%); }
+.heart-icon a { color:white; background-color:green !important; border:1px solid grey; padding:10px; border-radius:50%; }
+.heart-icon i { color:white; }
+.heart-icon { position:absolute; top:8%; right:0; transform:translateX(0%); transition:all 0.5s ease-in; visibility:hidden; }
+.design-card:hover .heart-icon { transform:translateX(-40%); visibility:visible; }
+@media (max-width:800px) { .heart-icon { position:inherit !important; top:0 !important; right:0 !important; transform:none !important; transition:none !important; visibility:visible !important; display:flex; justify-content:center; gap:10px; margin-top:-40px; } }
+.sale { background-color:green; color:white; padding:2px 5px; border:none; border-radius:5px; }
+.circle-1 { height:10px; width:10px; padding:1px 12px; border-radius:50%; background-color:green; border:none; }
+.count-btn { border:1px solid black; display:inline; padding:15px 20px; border-radius:50px; }
+.counter { border:none; background:none; }
+.add:hover  { background-color:brown; color:white; border:1px solid brown; }
+.add1 { background-color:white; padding:12px; border-radius:15px; transition:all 0.5s ease; }
+.add1:hover { background-color:brown; color:white; border:1px solid brown; }
+.mySwiper3 { width:79% !important; }
+.mySwiper1 { width:79% !important; margin-top:17px !important; }
+@media (max-width:776px) { .mySwiper3 { width:90% !important; } .mySwiper1 { width:90% !important; } }
+.swiper-wrapper { margin-top:20px; }
+.prev, .next { border:1px solid black; padding:10px 20px; border-radius:50%; background-color:white; border:none; color:black; box-shadow:0 5px 6px grey; }
+.next i, .prev i { color:black; }
+.size { padding:7px 25px; border-radius:40px; margin-right:10px; }
+.set  { border:2px solid brown; background-color:brown; color:white; }
+.offcanvas.offcanvas-end { width:550px !important; }
+.off-top { background-color:#f5eced; }
+.close { border:none; background-color:transparent; }
+.offcanvas-body::-webkit-scrollbar { display:none !important; }
+
+/* ── Brand ── */
+.brand-card { border:1px solid grey; padding:30px 60px; border-radius:50px; position:relative; display:flex; justify-content:center; align-items:center; }
+.brand-card:hover { background-color:rgb(122,25,25); }
+.brand-hover { border:1px solid grey; text-align:center; padding:10px; border-radius:50px; background-color:white; transform:scale(0); transform-origin:center; position:absolute; transition:all 0.9s ease; }
+.brand-card:hover .brand-hover { display:block; transform:scale(1); }
+.brand-card:hover .brand-img  { visibility:hidden; }
+
+/* ── Video section ── */
+.tradition-bottom { position:relative; }
+.tradition-content { position:absolute; bottom:0; }
+.top    { border-top-left-radius:8px; border-top-right-radius:8px; }
+.bottom { border-bottom-left-radius:8px; border-bottom-right-radius:8px; }
+.video  { border-radius:8px; }
+.play-btn { padding:20px; border-radius:50%; background-color:white; }
+.play-btn i { color:#a52a2a; }
+.traditional { position:relative; transition:all 0.5s ease; }
+.traditional:hover { transform:scaleY(1.02); }
+.video-rel { position:absolute; top:50%; left:50%; transform:translate(-50%,-13%); }
+
+/* ── Watch reels ── */
+.video-img  { border-radius:5px; }
+.btn4 { width:100%; padding:7px; border-radius:50px; border:none; color:brown; transition:all 0.5s ease; }
+.btn4:hover { background-color:transparent; color:white; border:1px solid white; }
+.video1     { position:relative; }
+.video-abs  { position:absolute; bottom:0; width:100%; }
+.video-auto { border-radius:7px; }
+
+/* ── Reviews / Customer ── */
+.user-img { width:80px; height:80px; border-radius:50%; border:5px solid white; object-fit:cover; }
+.user { background-color:#f5eced; border-radius:10px; min-height:280px; display:flex; flex-direction:column; transition:all 0.3s ease; }
+.user:hover { transform:translateY(-5px); box-shadow:0 4px 16px rgba(0,0,0,0.1); }
+.user .row { flex:1; display:flex; flex-direction:column; }
+.user .d-flex { margin-bottom:15px; }
+.user h5 { margin:0; font-size:16px; font-weight:600; color:#333; }
+.user p  { flex:1; margin:0; font-size:14px; line-height:1.6; color:#666; display:-webkit-box;  -webkit-box-orient:vertical; overflow:hidden; }
+.search-bar { padding:10px 20px; outline:none; border:none; border-radius:50px; }
+.search-bar::placeholder { color:black; font-size:20px; }
+.sub { padding:7px 30px; border-radius:50px; color:white; background-color:rgb(139,206,183); border:none; font-size:20px; font-weight:400; }
+.search-top    { position:relative; }
+.search-bottom { position:absolute; top:0; right:0; }
+.search-banner { background-image:url('/img/search-back.webp'); background-position:center; background-repeat:no-repeat; background-size:cover; border-radius:10px; }
+.banner { padding:0 25px !important; }
+@media (max-width:768px) { .user { min-height:260px; } .user-img { width:70px; height:70px; } }
+@media (max-width:400px) { .search-bottom { position:inherit; margin:10px 0; } .sub { width:100%; } .user { min-height:240px; } .user-img { width:60px; height:60px; } }

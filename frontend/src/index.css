@@ -1,0 +1,28 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    padding-right: 0px !important;
+    overflow-x: hidden;
+}
+
+.container-section {
+    padding-left: 48px;
+    padding-right: 48px;
+}
+
+@media (max-width: 992px) {
+    .container-section {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}

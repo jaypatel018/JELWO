@@ -1,0 +1,63 @@
+.contact{
+    background-image: url('img/about-banner.webp');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.contact-icon{
+    background-color: #f2f4f0;
+    padding: 40px;
+    border-radius: 50%;
+}
+.contact-img img{
+    height: 100%;
+    width: 100%;
+}
+.diff-country{
+   position: relative;
+   margin-top: -190px;
+}
+.country{
+    background-color:#f2f4f0; ;
+}
+.contact-form-field input{
+    border: none;
+    border-radius: 50px;
+    padding: 10px;
+    border: 1px solid grey;
+    outline: none;
+
+}
+.contact-form-field input::placeholder{
+    color: grey;
+    font-size:16px;
+}
+
+input[type="checkbox"]:hover::after{
+      content:none !important;    
+}
+
+.contact-card{
+    display: grid;
+    gap:50px;
+    grid-template-columns: repeat(3,1fr);
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px !important;
+}
+@media (max-width:900px) {
+    .contact-card{
+    grid-template-columns: repeat(2,1fr);
+    }
+}
+@media (max-width:500px) {
+    .contact-card{
+    grid-template-columns: repeat(1,1fr);
+    }
+}
+
+textarea{
+    width: 100%;
+    height: 100%;
+    resize: none;
+}

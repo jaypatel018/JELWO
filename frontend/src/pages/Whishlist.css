@@ -1,0 +1,73 @@
+.whishlist{
+    background-image: url("/img/about-banner.webp");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.whish-grid{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+    padding: 20px;
+}
+@media (max-width:1000px){
+    .whish-grid{
+    grid-template-columns: repeat(3,1fr);
+}
+}
+@media (max-width:800px){
+    .whish-grid{
+    grid-template-columns: repeat(2,1fr);
+}
+}
+@media (max-width:523px){
+    .whish-grid{
+    grid-template-columns: repeat(1,1fr);
+}
+}
+
+.wl-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.wl-empty-icon {
+    width: 100px;
+    height: 100px;
+    opacity: 0.35;
+    margin-bottom: 28px;
+}
+
+.wl-empty-title {
+    font-size: 32px;
+    font-weight: 400;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.wl-empty-text {
+    font-size: 15px;
+    color: #9ca3af;
+    line-height: 1.8;
+    margin-bottom: 32px;
+}
+
+.wl-empty-btn {
+    background: brown;
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.wl-empty-btn:hover {
+    background: brown;
+}
