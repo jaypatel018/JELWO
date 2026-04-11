@@ -13,10 +13,12 @@ const SignInPage = () => {
       <SignIn
         routing="hash"
         signUpUrl="/sign-up"
-        afterSignInUrl="/"
+        forceRedirectUrl="/"
       />
     </div>
   );
 };
+
+export default SignInPage;
 
 export default SignInPage;
