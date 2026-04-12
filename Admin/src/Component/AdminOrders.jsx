@@ -174,7 +174,7 @@ const AdminOrders = () => {
                               <h4><i className="fa-solid fa-location-dot"></i> Shipping Address</h4>
                               <p>{order.shippingAddress?.firstName} {order.shippingAddress?.lastName}</p>
                               <p>{order.shippingAddress?.address}{order.shippingAddress?.apartment ? ", " + order.shippingAddress.apartment : ""}</p>
-                              <p>{order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pinCode}</p>
+                              <p>{order.shippingAddress?.city}{order.shippingAddress?.district ? ", " + order.shippingAddress.district : ""}, {order.shippingAddress?.state} - {order.shippingAddress?.pinCode}</p>
                               <p>{order.shippingAddress?.country}</p>
                               <p>Phone: {order.customerInfo?.phone || "—"}</p>
                             </div>

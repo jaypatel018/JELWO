@@ -72,11 +72,9 @@ const blogs = [
 const Blog = () => {
   return (
     <div>
-      <div className="blog-banner">
-        <div className="text-center text-white">
-          <p><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> — NEWS</p>
-          <h1>Our Blog</h1>
-        </div>
+      <div className="page-title-section">
+        <h1>OUR BLOG</h1>
+        <p><Link to="/">Home</Link> &gt; BLOG</p>
       </div>
 
       <div className="container-section pt-5 pb-5">

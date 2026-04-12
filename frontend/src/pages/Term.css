@@ -1,10 +1,3 @@
-.term {
-  background-image: url('img/about-ban.webp');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
 /* Accordion */
 .accordion-item {
   border: 1px solid #e5e7eb;

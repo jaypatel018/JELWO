@@ -5,11 +5,9 @@ import { Link } from 'react-router-dom'
 const Storelocation = () => {
   return (
     <div>
-    <div className="container-section location">
-        <div className="text-center text-white pt-5 pb-5">
-            <p><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> - STORELOCATION</p>
-            <h1>STORE LOCATION</h1>
-        </div>
+    <div className="page-title-section">
+      <h1>STORE LOCATION</h1>
+      <p><Link to="/">Home</Link> &gt; STORE LOCATION</p>
     </div>
     <div className="container-section pt-5 pb-5">
             <div data-aos="fade-up" className="row justify-content-center align-items-center ">

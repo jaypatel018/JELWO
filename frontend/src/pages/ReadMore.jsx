@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom'
 const ReadMore = () => {
   return (
     <div>
-        <div className="container-section read-more pt-4 pb-4">
-             <div className="text-center text-white">
-                <div><p><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link>-NEWS</p></div>
-                <div><h1>News</h1></div>
-             </div>
+        <div className="page-title-section">
+          <h1>NEWS</h1>
+          <p><Link to="/">Home</Link> &gt; NEWS</p>
         </div>
         <div className="container-section " >
               <div className="row p-3">

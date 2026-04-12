@@ -67,6 +67,7 @@ const Buynow = () => {
         address: '',
         apartment: '',
         city: '',
+        district: '',
         pinCode: '',
       });
       
@@ -74,6 +75,59 @@ const Buynow = () => {
       const [paymentMethod, setPaymentMethod] = useState('razorpay');
       const [successOrder, setSuccessOrder] = useState(null);
       const [fieldErrors, setFieldErrors] = useState({});
+      const [mobileStep, setMobileStep] = useState(1); // 1 = summary, 2 = checkout
+      const [pinStatus, setPinStatus] = useState(null); // null | 'validating' | 'valid' | 'invalid' | 'mismatch'
+      const [pinMessage, setPinMessage] = useState('');
+      const [pinApiData, setPinApiData] = useState(null); // { district, state }
+
+      const validatePincode = async (pin) => {
+        if (pin.length !== 6 || !/^\d{6}$/.test(pin)) {
+          setPinStatus('invalid');
+          setPinMessage('PIN code must be 6 digits');
+          return;
+        }
+        setPinStatus('validating');
+        setPinMessage('Validating...');
+        try {
+          const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+          const data = await res.json();
+          if (data[0].Status === 'Success' && data[0].PostOffice?.length > 0) {
+            const offices = data[0].PostOffice;
+            const apiDistrict = offices[0].District;
+            const apiState = offices[0].State;
+            // Auto-fill district and state from API
+            setFormData(p => ({ ...p, district: apiDistrict }));
+            setState(apiState);
+            setPinApiData({ district: apiDistrict, state: apiState });
+            setPinStatus('valid');
+            setPinMessage(`✓ Valid — ${apiDistrict}, ${apiState}`);
+          } else {
+            setPinStatus('invalid');
+            setPinMessage('Invalid PIN code — not found');
+            setFormData(p => ({ ...p, district: '' }));
+            setPinApiData(null);
+          }
+        } catch {
+          setPinStatus(null);
+          setPinMessage('');
+        }
+      };
+
+      // Re-validate when user manually edits district or state after pincode was set
+      const checkDistrictStateMatch = (districtVal, stateVal) => {
+        if (!pinApiData) return;
+        const apiDistrict = pinApiData.district.toLowerCase();
+        const apiState = pinApiData.state.toLowerCase();
+        const d = districtVal.toLowerCase().trim();
+        const s = stateVal.toLowerCase().trim();
+        if (d !== apiDistrict || s !== apiState) {
+          setPinStatus('mismatch');
+          setPinMessage(`PIN ${formData.pinCode} belongs to ${pinApiData.district}, ${pinApiData.state}`);
+        } else {
+          setPinStatus('valid');
+          setPinMessage(`✓ Valid — ${pinApiData.district}, ${pinApiData.state}`);
+        }
+      };
 
       // Coupon states
       const [coupons, setCoupons] = useState([]);
@@ -183,10 +237,17 @@ const Buynow = () => {
                 address: addr.street || prev.address,
                 apartment: addr.addressLine2 || prev.apartment,
                 city: addr.city || prev.city,
+                district: addr.district || prev.district,
                 pinCode: addr.zipCode || prev.pinCode,
               }));
               if (addr.state) setState(addr.state);
               if (addr.country) setCountry(addr.country);
+              // If pinCode exists, validate it to show status
+              if (addr.zipCode && addr.zipCode.length === 6) {
+                setPinStatus('valid');
+                setPinMessage(`✓ Valid — ${addr.district || ''}, ${addr.state || ''}`);
+                setPinApiData({ district: addr.district || '', state: addr.state || '' });
+              }
             })
             .catch(() => {}); // silently fail if no profile
         }
@@ -215,13 +276,13 @@ const Buynow = () => {
           return;
         }
 
-        if (!formData.firstName || !formData.lastName || !formData.address || !formData.city || !formData.pinCode) {
+        if (!formData.firstName || !formData.lastName || !formData.address || !formData.city || !formData.pinCode || pinStatus === 'invalid' || pinStatus === 'mismatch') {
           const errors = {};
           if (!formData.firstName) errors.firstName = true;
           if (!formData.lastName)  errors.lastName  = true;
           if (!formData.address)   errors.address   = true;
           if (!formData.city)      errors.city      = true;
-          if (!formData.pinCode)   errors.pinCode   = true;
+          if (!formData.pinCode || pinStatus === 'invalid' || pinStatus === 'mismatch') errors.pinCode = true;
           setFieldErrors(errors);
           const firstError = Object.keys(errors)[0];
           document.querySelector(`[name="${firstError}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -254,6 +315,7 @@ const Buynow = () => {
                 address: formData.address,
                 apartment: formData.apartment,
                 city: formData.city,
+                district: formData.district,
                 state: state,
                 pinCode: formData.pinCode,
                 country: country,
@@ -328,6 +390,7 @@ const Buynow = () => {
                     address: formData.address,
                     apartment: formData.apartment,
                     city: formData.city,
+                    district: formData.district,
                     state: state,
                     pinCode: formData.pinCode,
                     country: country,
@@ -380,18 +443,36 @@ const Buynow = () => {
         }
       };
   return (
-    <div className=' p-4 p-md-5'>
+    <div className=' p-0 p-md-4'>
       {successOrder && (
         <OrderSuccess
           orderNumber={successOrder}
           onClose={() => { setSuccessOrder(null); navigate('/profile'); }}
         />
       )}
-       <div className='border-bottom pt-2 pb-2 ps-2 ps-md-5'>
-        <h3>Jelwo</h3>
+       <div className='border-bottom pt-2 pb-2 ps-3 ps-md-5 d-flex align-items-center gap-3'>
+        {mobileStep === 2 && (
+          <button className='bn-back-btn d-md-none' onClick={() => setMobileStep(1)}>
+            <i className='fa-solid fa-arrow-left'></i>
+          </button>
+        )}
+        <h3 className='mb-0'>Jelwo</h3>
+
+        {/* Mobile step progress */}
+        <div className='bn-steps d-md-none ms-auto me-3'>
+          <div className={`bn-step ${mobileStep >= 1 ? 'bn-step-active' : ''}`}>
+            <span className='bn-step-circle'>1</span>
+            <span className='bn-step-label'>Summary</span>
+          </div>
+          <div className='bn-step-line'></div>
+          <div className={`bn-step ${mobileStep >= 2 ? 'bn-step-active' : ''}`}>
+            <span className='bn-step-circle'>2</span>
+            <span className='bn-step-label'>Checkout</span>
+          </div>
+        </div>
        </div>
-       <div className="row ">
-           <div className="col-12 col-md-6  border-end border-grey  p-4 p-md-5 pb-0">
+       <div className="row g-0">
+           <div className={`col-12 col-md-6 border-end border-grey p-3 p-md-5 pb-0 order-2 order-md-1 ${mobileStep === 1 ? 'd-none d-md-block' : ''}`}>
             <div className='contact-detail mb-3'>
                 <div className='d-flex justify-content-between align-items-center'>
                     <h5>Contact</h5>
@@ -447,7 +528,7 @@ const Buynow = () => {
                     </div>
 
                     {/* First + Last name */}
-                    <div className="d-flex gap-3 mb-3">
+                    <div className="d-flex flex-column flex-sm-row gap-3 mb-3">
                       <input type="text" name="firstName" placeholder="First name" className={`bn-input w-100 ${fieldErrors.firstName ? 'bn-field-error' : ''}`} value={formData.firstName} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, firstName: false})); }} required />
                       <input type="text" name="lastName" placeholder="Last name" className={`bn-input w-100 ${fieldErrors.lastName ? 'bn-field-error' : ''}`} value={formData.lastName} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, lastName: false})); }} required />
                     </div>
@@ -463,12 +544,35 @@ const Buynow = () => {
                       <input type="text" name="apartment" placeholder="Apartment, suite, etc. (optional)" className="bn-input w-100" value={formData.apartment} onChange={handleInputChange} />
                     </div>
 
-                    {/* City + State + PIN */}
-                    <div className="d-flex gap-3 mb-3">
-                      <input type="text" name="city" placeholder="City" className={`bn-input w-100 ${fieldErrors.city ? 'bn-field-error' : ''}`} value={formData.city} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, city: false})); }} required />
+                    {/* City + District */}
+                    <div className="d-flex flex-column flex-sm-row gap-3 mb-3">
+                      <input
+                        type="text"
+                        name="city"
+                        placeholder="City / Town"
+                        className={`bn-input w-100 ${fieldErrors.city ? 'bn-field-error' : ''}`}
+                        value={formData.city}
+                        onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, city: false})); }}
+                        required
+                      />
+                      <input
+                        type="text"
+                        name="district"
+                        placeholder="District"
+                        className={`bn-input w-100 ${pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`}
+                        value={formData.district}
+                        onChange={e => {
+                          handleInputChange(e);
+                          checkDistrictStateMatch(e.target.value, state);
+                        }}
+                      />
+                    </div>
+
+                    {/* State + PIN */}
+                    <div className="d-flex flex-column flex-sm-row gap-3 mb-1">
                       <div className="bn-field-wrap w-100">
                         <label className="bn-field-label">State</label>
-                        <select value={state} onChange={handleChange1} className="bn-select" required>
+                        <select value={state} onChange={e => { handleChange1(e); checkDistrictStateMatch(formData.district, e.target.value); }} className={`bn-select ${pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`} required>
                           <option value="Gujarat">Gujarat</option>
                           <option value="Andaman and Nicobar Island">Andaman and Nicobar Island</option>
                           <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -484,8 +588,32 @@ const Buynow = () => {
                           <option value="Uttar Pradesh">Uttar Pradesh</option>
                         </select>
                       </div>
-                      <input type="text" name="pinCode" placeholder="PIN code" className={`bn-input w-100 ${fieldErrors.pinCode ? 'bn-field-error' : ''}`} value={formData.pinCode} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, pinCode: false})); }} required />
+                      <div className="w-100">
+                        <input
+                          type="text"
+                          name="pinCode"
+                          placeholder="PIN code"
+                          maxLength={6}
+                          className={`bn-input w-100 ${fieldErrors.pinCode || pinStatus === 'invalid' || pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`}
+                          value={formData.pinCode}
+                          onChange={e => {
+                            const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                            setFormData(p => ({ ...p, pinCode: val }));
+                            setFieldErrors(p => ({...p, pinCode: false}));
+                            if (val.length === 6) validatePincode(val);
+                            else { setPinStatus(null); setPinMessage(''); setFormData(p => ({...p, district: ''})); setPinApiData(null); }
+                          }}
+                          required
+                        />
+                        {pinMessage && (
+                          <p className={`bn-pin-msg ${pinStatus === 'valid' ? 'bn-pin-valid' : 'bn-pin-error'}`}>
+                            {pinStatus === 'validating' && <span className="spinner-border spinner-border-sm me-1" style={{width:'10px',height:'10px'}}></span>}
+                            {pinMessage}
+                          </p>
+                        )}
+                      </div>
                     </div>
+                    <div className="mb-3"></div>
 
                     {/* Phone with India flag */}
                     <div className="bn-phone-wrap mb-3">
@@ -562,7 +690,7 @@ const Buynow = () => {
                 </div>
             </div>
            </div>
-           <div className="col-12 col-md-6 total-card ">
+           <div className={`col-12 col-md-6 total-card order-1 order-md-2 ${mobileStep === 2 ? 'd-none d-md-block' : ''}`}>
                <div className='total-section p-2 p-md-5 '>
                  <h5 className="order-summary-title">
                    <i className="fa-solid fa-receipt me-2"></i>
@@ -777,6 +905,15 @@ const Buynow = () => {
                        <i className="fa-solid fa-lock"></i>
                        <span>Secure Checkout</span>
                      </div>
+
+                     {/* Mobile Continue button — only on step 1 */}
+                     <button
+                       className='bn-continue-btn d-md-none'
+                       onClick={() => setMobileStep(2)}
+                       disabled={buyItems.length === 0}
+                     >
+                       Continue to Checkout <i className='fa-solid fa-arrow-right ms-2'></i>
+                     </button>
                    </>
                  )}
                </div>

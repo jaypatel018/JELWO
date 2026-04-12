@@ -1066,3 +1066,111 @@
   transition: color 0.2s;
 }
 .coupon-copy-btn:hover { color: #22c55e; }
+
+/* ── Mobile Product Page Fixes ── */
+@media (max-width: 768px) {
+  /* Ensure full page has 16px side padding */
+  .container-section .row.mb-5 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Both columns — no extra gutter */
+  .container-section .row.mb-5 > [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Space between image section and product info */
+  .col-12.col-lg-6.ps-lg-5 {
+    margin-top: 20px;
+  }
+
+  /* Breadcrumb spacing */
+  .breadcrumb-text {
+    margin-top: 16px !important;
+    margin-bottom: 12px !important;
+    font-size: 12px;
+  }
+
+  /* Image section — remove sticky on mobile */
+  .col-12.col-lg-6 > div[style*="sticky"] {
+    position: static !important;
+  }
+
+  .product-title-row {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .product-title {
+    font-size: 18px;
+    flex: 1;
+  }
+
+  .product-rating-inline {
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+
+  /* Price row */
+  .product-price-row {
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .product-sale-price { font-size: 18px; }
+  .product-mrp { font-size: 13px; }
+  .product-save-badge { font-size: 11px; padding: 3px 8px; }
+
+  /* Stock + countdown */
+  .border-divider { padding: 10px 0; margin: 10px 0; }
+  .count { padding: 10px 14px; }
+  .count h6 { font-size: 13px; }
+
+  /* Size selector */
+  .size-selector-wrapper,
+  .color-selector-wrapper {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .size { padding: 8px 18px; font-size: 13px; margin-right: 6px; margin-bottom: 6px; }
+
+  /* Quantity row */
+  .d-flex.align-items-center.gap-3.mb-4 {
+    margin-bottom: 12px !important;
+  }
+
+  /* Action buttons */
+  .action-buttons {
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .add { padding: 13px 20px; font-size: 14px; }
+
+  /* Brand/wishlist list */
+  .brand li { font-size: 12px; padding: 8px 10px; }
+
+  /* Delivery info */
+  .delivery-info { padding: 12px; margin-top: 12px; }
+  .delivery-info p { font-size: 13px; margin: 6px 0; }
+
+  /* Payment card */
+  .payment-card { padding: 14px; margin-top: 12px; }
+  .payment img { width: 38px; height: 38px; }
+
+  /* Icon card */
+  .icon-card { margin: 12px 0; }
+  .icon-card-item { padding: 14px 8px; }
+  .icon-img { width: 40px; height: 40px; }
+  .icon-card h6 { font-size: 11px; }
+
+  /* Accordion */
+  .ca-header { padding: 12px 14px; }
+  .ca-body { padding: 14px; }
+
+  /* Related products */
+  .related-section { margin: 24px 0 16px; padding-top: 20px; }
+  .related-title { font-size: 18px; margin-bottom: 16px; }
+}

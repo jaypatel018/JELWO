@@ -9,9 +9,9 @@ import { Navigation, Autoplay } from 'swiper/modules';
 const Contact = () => {
   return (
     <div>
-      <div className="contact text-center text-white pt-5 pb-5">
-        <h6><Link to="/" style={{color:'inherit',textDecoration:'none'}}>Home</Link>-contact</h6>
-        <h1>Contact US</h1>
+      <div className="page-title-section">
+        <h1>CONTACT US</h1>
+        <p><Link to="/">Home</Link> &gt; CONTACT</p>
       </div>
       <div className=" container-section quick  ">
                    <h1 data-aos="fade-up" className='text-center pt-5'>Quick Support</h1>
@@ -34,7 +34,7 @@ const Contact = () => {
                    </div>
       </div>
       <div className="contact-img">
-        <img  src="img/jewellery-contact-us.webp" alt="" />
+        <img src="img/about-ban.webp" alt="" />
       </div>
       <div className="country ps-3 pe-3">
         <div className="diff-country bg-white p-5 ">

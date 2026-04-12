@@ -12,9 +12,9 @@ const Faq = () => {
 
   return (
     <div>
-        <div className="faq-section text-center p-5 text-white ">
-            <span ><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> - FAQ'S</span>
-            <h2 className='mt-2'>FAQ</h2>
+        <div className="page-title-section">
+          <h1>FAQ'S</h1>
+          <p><Link to="/">Home</Link> &gt; FAQ'S</p>
         </div>
         <div className="question container-section">
             <div className="row justify-content-center ">

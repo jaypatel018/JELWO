@@ -11,9 +11,9 @@ const Term = () => {
 
   return (
     <div>
-      <div className="term text-center pt-5 pb-5 text-white">
-        <p><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> - TERMS & CONDITIONS</p>
-        <h1>Terms & Conditions</h1>
+      <div className="page-title-section">
+        <h1>TERMS & CONDITIONS</h1>
+        <p><Link to="/">Home</Link> &gt; TERMS & CONDITIONS</p>
       </div>
       
       <div className="container-section pt-5 pb-5">

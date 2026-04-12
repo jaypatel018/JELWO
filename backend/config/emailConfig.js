@@ -259,7 +259,7 @@ export const sendOrderConfirmationEmail = async (order) => {
                   <p style="margin:0;font-size:14px;color:#374151;line-height:1.8;">
                     ${addr.firstName || ''} ${addr.lastName || ''}<br/>
                     ${addr.address || ''}${addr.apartment ? ', ' + addr.apartment : ''}<br/>
-                    ${addr.city || ''}, ${addr.state || ''} - ${addr.pinCode || ''}<br/>
+                    ${addr.city || ''}${addr.district ? ', ' + addr.district : ''}, ${addr.state || ''} - ${addr.pinCode || ''}<br/>
                     ${addr.country || ''}
                   </p>
                 </td>

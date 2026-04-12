@@ -9,9 +9,9 @@ import { Navigation,  Pagination,Mousewheel, Keyboard } from 'swiper/modules';
 const About = () => {
   return (
     <div>
-      <div className="aboutus text-center pt-5 pb-5 text-white">
-        <span><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> - ABOUT US</span>
-        <h2>About us</h2>
+      <div className="page-title-section">
+        <h1>ABOUT US</h1>
+        <p><Link to="/">Home</Link> &gt; ABOUT US</p>
       </div>
       <div className="story pt-5 ">
           <div className='text-center'>

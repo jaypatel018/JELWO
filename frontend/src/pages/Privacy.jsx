@@ -11,11 +11,9 @@ const Privacy = () => {
 
   return (
     <div>
-      <div className="container-section privacy pt-5 pb-5">
-        <div className="text-white text-center">
-          <p><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> - PRIVACY POLICY</p>
-          <h1>Privacy Policy</h1>
-        </div>
+      <div className="page-title-section">
+        <h1>PRIVACY POLICY</h1>
+        <p><Link to="/">Home</Link> &gt; PRIVACY POLICY</p>
       </div>
       
       <div className="container-section pt-5 pb-5">

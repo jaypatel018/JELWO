@@ -25,7 +25,9 @@ const Profile = () => {
   const invoiceRef = useRef(null);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [editedInfo, setEditedInfo] = useState({ phone: '', addressLine1: '', addressLine2: '', postalCode: '', city: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
+  const [editedInfo, setEditedInfo] = useState({ phone: '', addressLine1: '', addressLine2: '', postalCode: '', city: '', district: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
+  const [pinStatus, setPinStatus] = useState(null); // null | 'validating' | 'valid' | 'invalid'
+  const [pinMessage, setPinMessage] = useState('');
   const [recentlyViewed] = useState(() => {
     try { return JSON.parse(localStorage.getItem('recentlyViewed') || '[]'); } catch { return []; }
   });
@@ -49,6 +51,7 @@ const Profile = () => {
           addressLine2: res.data.address?.addressLine2 || '',
           postalCode: res.data.address?.zipCode || '',
           city: res.data.address?.city || '',
+          district: res.data.address?.district || '',
           state: res.data.address?.state || '',
           country: res.data.address?.country || '',
           birthDD: res.data.birthDD || '',
@@ -57,7 +60,7 @@ const Profile = () => {
           gender: res.data.gender || ''
         });
     } catch {
-      setEditedInfo({ phone: '', addressLine1: '', addressLine2: '', postalCode: '', city: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
+      setEditedInfo({ phone: '', addressLine1: '', addressLine2: '', postalCode: '', city: '', district: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
     }
   };
 
@@ -92,7 +95,7 @@ const Profile = () => {
       </tr>`).join('');
 
     // Build address cleanly — avoid duplication
-    const addrLine = [addr.address, addr.city, addr.state].filter(Boolean).join(', ');
+    const addrLine = [addr.address, addr.city, addr.district, addr.state].filter(Boolean).join(', ');
     const addrLine2 = [addr.pinCode, addr.country].filter(Boolean).join(', ');
 
     win.document.write(`<!DOCTYPE html>
@@ -215,6 +218,33 @@ const Profile = () => {
     return TRACKING_STEPS.indexOf(status);
   };
 
+  const validatePincode = async (pin) => {
+    if (pin.length !== 6 || !/^\d{6}$/.test(pin)) {
+      setPinStatus('invalid');
+      setPinMessage('PIN code must be 6 digits');
+      return;
+    }
+    setPinStatus('validating');
+    setPinMessage('Validating...');
+    try {
+      const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+      const data = await res.json();
+      if (data[0].Status === 'Success' && data[0].PostOffice?.length > 0) {
+        const { District, State } = data[0].PostOffice[0];
+        setEditedInfo(p => ({ ...p, district: District, state: State }));
+        setPinStatus('valid');
+        setPinMessage(`✓ ${District}, ${State}`);
+      } else {
+        setPinStatus('invalid');
+        setPinMessage('Invalid PIN code — not found');
+        setEditedInfo(p => ({ ...p, district: '' }));
+      }
+    } catch {
+      setPinStatus(null);
+      setPinMessage('');
+    }
+  };
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -226,6 +256,7 @@ const Profile = () => {
         addressLine2: editedInfo.addressLine2,
         postalCode: editedInfo.postalCode,
         city: editedInfo.city,
+        district: editedInfo.district,
         state: editedInfo.state,
         country: editedInfo.country,
         birthDD: editedInfo.birthDD,
@@ -432,7 +463,24 @@ const Profile = () => {
                   </div>
                   <div className="pf-field pf-field-third">
                     <label>Postal/Zip Code</label>
-                    <input className="pf-input" placeholder="Postal/Zip Code" value={editedInfo.postalCode} onChange={e => setEditedInfo(p => ({...p, postalCode: e.target.value}))} />
+                    <input
+                      className={`pf-input ${pinStatus === 'invalid' ? 'pf-input-error' : pinStatus === 'valid' ? 'pf-input-success' : ''}`}
+                      placeholder="6-digit PIN code"
+                      maxLength={6}
+                      value={editedInfo.postalCode}
+                      onChange={e => {
+                        const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                        setEditedInfo(p => ({...p, postalCode: val}));
+                        if (val.length === 6) validatePincode(val);
+                        else { setPinStatus(null); setPinMessage(''); setEditedInfo(p => ({...p, district: ''})); }
+                      }}
+                    />
+                    {pinMessage && (
+                      <p className={`pf-pin-msg ${pinStatus === 'valid' ? 'pf-pin-valid' : pinStatus === 'validating' ? 'pf-pin-validating' : 'pf-pin-error'}`}>
+                        {pinStatus === 'validating' && <span className="spinner-border spinner-border-sm me-1" style={{width:'10px',height:'10px'}}></span>}
+                        {pinMessage}
+                      </p>
+                    )}
                   </div>
                   <div className="pf-field pf-field-third">
                     <label>Contact Number</label>
@@ -445,9 +493,13 @@ const Profile = () => {
                     <label>City</label>
                     <input className="pf-input" placeholder="City" value={editedInfo.city} onChange={e => setEditedInfo(p => ({...p, city: e.target.value}))} />
                   </div>
+                  <div className="pf-field pf-field-third">
+                    <label>District</label>
+                    <input className="pf-input" placeholder="District (auto-filled from PIN)" value={editedInfo.district} onChange={e => setEditedInfo(p => ({...p, district: e.target.value}))} />
+                  </div>
                   <div className="pf-field pf-field-half">
                     <label>State</label>
-                    <input className="pf-input" placeholder="State" value={editedInfo.state || ''} onChange={e => setEditedInfo(p => ({...p, state: e.target.value}))} />
+                    <input className="pf-input" placeholder="State (auto-filled from PIN)" value={editedInfo.state || ''} onChange={e => setEditedInfo(p => ({...p, state: e.target.value}))} />
                   </div>
                   <div className="pf-field pf-field-half">
                     <label>Country</label>
@@ -464,7 +516,7 @@ const Profile = () => {
                       <div>
                         {editedInfo.addressLine1 && <p>{editedInfo.addressLine1}</p>}
                         {editedInfo.addressLine2 && editedInfo.addressLine2 !== editedInfo.addressLine1 && <p>{editedInfo.addressLine2}</p>}
-                        <p>{[editedInfo.city, editedInfo.state, editedInfo.postalCode, editedInfo.country].filter(Boolean).join(', ')}</p>
+                        <p>{[editedInfo.city, editedInfo.district, editedInfo.state, editedInfo.postalCode, editedInfo.country].filter(Boolean).join(', ')}</p>
                         {editedInfo.phone && <p>📞 +91 {editedInfo.phone}</p>}
                       </div>
                     </div>
@@ -565,7 +617,7 @@ const Profile = () => {
                               <h4><i className="fa-solid fa-location-dot"></i> Shipping Address</h4>
                               <p>{order.shippingAddress?.firstName} {order.shippingAddress?.lastName}</p>
                               <p>{order.shippingAddress?.address}{order.shippingAddress?.apartment ? ', ' + order.shippingAddress.apartment : ''}</p>
-                              <p>{order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pinCode}</p>
+                              <p>{order.shippingAddress?.city}{order.shippingAddress?.district ? ', ' + order.shippingAddress.district : ''}, {order.shippingAddress?.state} - {order.shippingAddress?.pinCode}</p>
                               <p>{order.shippingAddress?.country}</p>
                             </div>
                             <div className="pf-order-info-box">

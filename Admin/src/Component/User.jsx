@@ -42,7 +42,7 @@ const User = () => {
 
   const getAddress = (addr) => {
     if (!addr) return "N/A";
-    const parts = [addr.street, addr.addressLine2, addr.city, addr.state, addr.zipCode, addr.country];
+    const parts = [addr.street, addr.addressLine2, addr.city, addr.district, addr.state, addr.zipCode, addr.country];
     const filled = parts.filter(Boolean);
     return filled.length ? filled.join(", ") : "N/A";
   };

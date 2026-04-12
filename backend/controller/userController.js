@@ -271,7 +271,7 @@ export const getUserByEmail = async (req, res) => {
 // Upsert user profile (create or update by email - used for Clerk users)
 export const upsertUserProfile = async (req, res) => {
   try {
-    const { email, name, phone, addressLine1, addressLine2, postalCode, city, state, country, birthDD, birthMM, birthYYYY, gender } = req.body;
+    const { email, name, phone, addressLine1, addressLine2, postalCode, city, district, state, country, birthDD, birthMM, birthYYYY, gender } = req.body;
 
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
@@ -288,6 +288,7 @@ export const upsertUserProfile = async (req, res) => {
         addressLine2: addressLine2 || '',
         zipCode: postalCode || '',
         city: city || '',
+        district: district || '',
         state: state || '',
         country: country || ''
       };
@@ -296,7 +297,7 @@ export const upsertUserProfile = async (req, res) => {
       if (birthYYYY !== undefined) user.birthYYYY = birthYYYY;
       if (gender !== undefined) user.gender = gender;
       user.isVerified = true;
-      user.lastLogin = new Date(); // update last login on every profile upsert (Clerk sign-in)
+      user.lastLogin = new Date();
       await user.save();
     } else {
       user = new User({
@@ -309,6 +310,7 @@ export const upsertUserProfile = async (req, res) => {
           addressLine2: addressLine2 || '',
           zipCode: postalCode || '',
           city: city || '',
+          district: district || '',
           state: state || '',
           country: country || ''
         },

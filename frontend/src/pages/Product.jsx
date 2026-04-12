@@ -249,8 +249,8 @@ const Product = () => {
   return (
     <div>
         <div className="container-section ">
-            <div><p className="mt-5 mb-4 breadcrumb-text"><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> / {product.title.toUpperCase()}</p></div>
-                <div className="row mb-5 ">
+            <div><p className="mt-3 mb-3 breadcrumb-text"><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> / {product.title.toUpperCase()}</p></div>
+                <div className="row g-0 mb-5">
                     <div className="col-12 col-lg-6 ">
                         <div style={{position: 'sticky', top: '20px'}}>
                            <Swiper
@@ -327,7 +327,7 @@ const Product = () => {
                          </div>
                      </div>  
 
-                     <div className="col-12 col-lg-6  ps-3 ps-lg-5">
+                     <div className="col-12 col-lg-6 ps-lg-5">
                     
                         <div className="product-title-row">
                           <h1 className="product-title">{product.title}</h1>
