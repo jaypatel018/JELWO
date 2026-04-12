@@ -37,6 +37,30 @@ const brandSlides = [
 const Home = () => {
   // Modal
   const [show, setShow] = useState(false);
+
+  // Newsletter
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterMsg, setNewsletterMsg] = useState('');
+
+  const handleNewsletterSubscribe = async () => {
+    if (!newsletterEmail.trim() || !newsletterEmail.includes('@')) {
+      setNewsletterMsg('Please enter a valid email address.');
+      return;
+    }
+    setNewsletterLoading(true);
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/users/newsletter-subscribe`, {
+        email: newsletterEmail.trim()
+      });
+      setNewsletterMsg('🎉 Coupon sent! Check your email for FIRST10 — 10% off your first order.');
+      setNewsletterEmail('');
+    } catch (err) {
+      setNewsletterMsg(err.response?.data?.message || 'Something went wrong. Try again.');
+    } finally {
+      setNewsletterLoading(false);
+    }
+  };
   // Data
   const [categories, setCategories] = useState([]);
   const [products, setProducts]     = useState([]);
@@ -336,10 +360,28 @@ const Home = () => {
               <div className="text-center"><h1>Join Our newsletter and get 10% off your first order</h1></div>
               <div className="search-bar">
                 <div className="subrel">
-                  <input type="text" placeholder="enter your name" />
-                  <div className="subs"><button className="subs-btn">SUBSCRIBE</button></div>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={newsletterEmail}
+                    onChange={e => { setNewsletterEmail(e.target.value); setNewsletterMsg(''); }}
+                  />
+                  <div className="subs">
+                    <button
+                      className="subs-btn"
+                      onClick={handleNewsletterSubscribe}
+                      disabled={newsletterLoading}
+                    >
+                      {newsletterLoading ? 'Sending...' : 'SUBSCRIBE'}
+                    </button>
+                  </div>
                 </div>
               </div>
+              {newsletterMsg && (
+                <p style={{textAlign:'center', marginTop:'10px', color: newsletterMsg.includes('sent') ? '#16a34a' : '#ef4444', fontSize:'14px', fontWeight:500}}>
+                  {newsletterMsg}
+                </p>
+              )}
             </div>
             <div className="p-2"><img className="w-100 rounded-3" src="img/modalimg.webp" alt="" /></div>
           </div>

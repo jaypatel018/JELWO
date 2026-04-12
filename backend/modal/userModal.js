@@ -131,6 +131,10 @@ const userSchema = new mongoose.Schema({
          type: Boolean,
          default: true
       }
+   },
+   newsletterSubscribed: {
+      type: Boolean,
+      default: false
    }
 }, {
    timestamps: true, // Adds createdAt and updatedAt automatically

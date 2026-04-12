@@ -434,3 +434,73 @@ export const sendCouponAnnouncementEmail = async (coupon, users) => {
   console.log(`✅ Coupon announcement sent to ${sent}/${users.length} users`);
   return { success: true, sent };
 };
+
+// Send FIRST10 coupon to newsletter subscriber
+export const sendNewsletterWelcomeEmail = async (email) => {
+  if (!isConfigured) return { success: false };
+
+  const mailOptions = {
+    from: `"Jelwo Jewelry" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `🎁 Your 10% Off Coupon — Welcome to Jelwo!`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+      <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+      <body style="margin:0;padding:0;font-family:Arial,sans-serif;background:#f4f6f9;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f9;padding:24px 0;">
+          <tr><td align="center">
+            <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+              <tr>
+                <td style="background:#1a1a2e;padding:36px 40px;text-align:center;">
+                  <h1 style="color:#fff;margin:0;font-size:26px;letter-spacing:2px;">JELWO</h1>
+                  <p style="color:#a0aec0;margin:6px 0 0;font-size:13px;">FINE JEWELLERY</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="background:linear-gradient(135deg,#667eea,#764ba2);padding:40px;text-align:center;">
+                  <p style="font-size:40px;margin:0;">🎁</p>
+                  <h2 style="color:#fff;margin:12px 0 6px;font-size:26px;">Welcome to Jelwo!</h2>
+                  <p style="color:#e0d7ff;margin:0;font-size:15px;">Here's your exclusive 10% off coupon</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:36px 40px;text-align:center;">
+                  <p style="color:#374151;font-size:16px;margin:0 0 20px;">Use this code at checkout:</p>
+                  <div style="background:#f8f4ff;border:2px dashed #764ba2;border-radius:12px;padding:24px 40px;display:inline-block;">
+                    <p style="color:#764ba2;font-size:13px;margin:0 0 8px;text-transform:uppercase;letter-spacing:1px;">Your Coupon Code</p>
+                    <h1 style="color:#1a1a2e;font-size:36px;margin:0;letter-spacing:6px;font-weight:800;">FIRST10</h1>
+                    <p style="color:#16a34a;font-size:18px;font-weight:700;margin:10px 0 0;">10% OFF your first order</p>
+                  </div>
+                  <p style="color:#ef4444;font-size:13px;margin:20px 0 0;">⏰ Valid for new customers only</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:0 40px 36px;text-align:center;">
+                  <a href="${process.env.FRONTEND_URL || 'https://jelwo-six.vercel.app'}/showmore"
+                     style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;padding:16px 40px;border-radius:50px;font-size:16px;font-weight:700;">
+                    Shop Now &rarr;
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td style="background:#f8fafc;padding:20px 40px;text-align:center;border-top:1px solid #e5e7eb;">
+                  <p style="color:#94a3b8;font-size:12px;margin:0;">© ${new Date().getFullYear()} Jelwo Jewelry. All rights reserved.</p>
+                </td>
+              </tr>
+            </table>
+          </td></tr>
+        </table>
+      </body>
+      </html>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return { success: true };
+  } catch (err) {
+    console.error('Newsletter email error:', err.message);
+    return { success: false };
+  }
+};

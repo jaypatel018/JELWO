@@ -1,6 +1,6 @@
 import  User  from "../modal/userModal.js";
 import bcrypt from "bcryptjs";
-import { sendOTPEmail } from "../config/emailConfig.js";
+import { sendOTPEmail, sendNewsletterWelcomeEmail } from "../config/emailConfig.js";
 import OrderDetails from "../modal/OrderDetails.js";
 
 // this file handle the logic for sign up and login
@@ -461,3 +461,34 @@ export const resetPassword = async (req, res) => {
   }
 };
 
+
+// Newsletter subscribe — send FIRST10 coupon email
+export const newsletterSubscribe = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({ message: 'Invalid email address' });
+    }
+
+    // Check if user is registered
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      return res.status(404).json({ message: 'This email is not registered. Please create an account first.' });
+    }
+
+    // Check if already subscribed / coupon already sent
+    if (user.newsletterSubscribed) {
+      return res.status(400).json({ message: 'You have already received your coupon! Use code FIRST10 at checkout.' });
+    }
+
+    // Send welcome email with FIRST10 coupon
+    await sendNewsletterWelcomeEmail(email);
+
+    // Mark as subscribed
+    await User.findByIdAndUpdate(user._id, { newsletterSubscribed: true });
+
+    res.status(200).json({ success: true, message: 'Coupon sent to your email!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to send email' });
+  }
+};
