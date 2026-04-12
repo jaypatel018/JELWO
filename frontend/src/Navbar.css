@@ -1322,7 +1322,7 @@
   font-size: 20px;
   color: #333;
   cursor: pointer;
-  padding: 4px 6px;
+  padding: 0;
 }
 
 .mobile-hide-profile { display: flex; }
