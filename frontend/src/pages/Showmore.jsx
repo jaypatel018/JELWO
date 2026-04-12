@@ -224,17 +224,17 @@ const resetFilters = () => {
             </div>
           )}
 
-          <div class="border-bottom p-3">
+          <div className="border-bottom p-3">
             <h4>Availability</h4>
-            <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+            <div className="d-flex justify-content-between align-items-center mt-2 mb-2">
               <div>{availabilityFilter.length} selected</div>
               <div onClick={() => setAvailabilityFilter([])} style={{cursor: 'pointer'}}>
                 <u>Reset</u>
               </div>
             </div>
-            <ul class="list-unstyled p-0 mt-2">
+            <ul className="list-unstyled p-0 mt-2">
               <li className="pb-1">
-                <div class="d-flex justify-content-between">
+                <div className="d-flex justify-content-between">
                   <div>
                     <input
                       type="checkbox"
@@ -250,7 +250,7 @@ const resetFilters = () => {
                 </div>
               </li>
               <li>
-                <div class="d-flex justify-content-between">
+                <div className="d-flex justify-content-between">
                   <div>
                     <input
                       type="checkbox"
@@ -270,7 +270,7 @@ const resetFilters = () => {
           {/*price filter */}
           <div className="range p-3 border-bottom">
             <h4>Price</h4>
-            <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+            <div className="d-flex justify-content-between align-items-center mt-2 mb-2">
               <div>Highest price Rs.{maxPrice}</div>
               <div onClick={() => setValue([0, maxPrice])} className="reset">
                 <u>Reset</u>
@@ -313,9 +313,9 @@ const resetFilters = () => {
             </div>
           </div>
           {/* color */}
-          <div class="color-section border-bottom p-3">
+          <div className="color-section border-bottom p-3">
             <h4>Color</h4>
-            <div class="d-flex justify-content-between align-items-center mt-2 mb-2">
+            <div className="d-flex justify-content-between align-items-center mt-2 mb-2">
               <div>{selectedColors.length} selected</div>
               <div onClick={() => setSelectedColors([])} style={{cursor: 'pointer'}}>
                 <u>Reset</u>
@@ -359,14 +359,14 @@ const resetFilters = () => {
                 <div><span className="num">({products.filter(p => p.metalColor?.toLowerCase() === 'yellow gold').length})</span></div>
               </label>
             </div>
-            <div class=" pt-4">
-              <div class="side">
-                <img class="w-100 " src="./img/side-banner.webp" alt="" />
+            <div className=" pt-4">
+              <div className="side">
+                <img className="w-100 " src="./img/side-banner.webp" alt="" />
               </div>
             </div>
           </div>
         </div>
-        <div className="col-12 px-3 px-md-4 px-lg-5">
+        <div className="px-3 px-md-4 px-lg-5">
           <div>
             {/* Sort Bar */}
             <div className="sort-bar">
@@ -413,7 +413,7 @@ const resetFilters = () => {
 
             <div className="tab-content">
               {/* Grid View */}
-              <div className={`mt-4 ${viewMode === 'grid' ? 'd-block' : 'd-none'}`}>
+              <div className={`${viewMode === 'grid' ? 'd-block' : 'd-none'}`}>
                 {loading ? (
                   <div className="text-center mt-5 mb-5">
                     <div className="spinner-border text-danger" role="status">
@@ -494,24 +494,24 @@ const resetFilters = () => {
                   <>
                 {filterProducts.length > 0 ? (
                   filterProducts.map((product) => (
-                    <div class="row border rounded-3 m-3 justify-content-center align-items-center pt-3 pb-3  bg-white mt-3">
-                      <div class="col-12 col-sm-4">
+                    <div className="row border rounded-3 m-3 justify-content-center align-items-center pt-3 pb-3  bg-white mt-3">
+                      <div className="col-12 col-sm-4">
                         <Link to={`/product/${product._id}`}>
-                          <div class="img-content">
+                          <div className="img-content">
                             <img
-                              class=" w-100 front-img"
+                              className=" w-100 front-img"
                               src={`${import.meta.env.VITE_API_IMAGE}/${product.frontImg}`}
                               alt=""
                             />
                             <img
-                              class="w-100 back-img"
+                              className="w-100 back-img"
                               src={`${import.meta.env.VITE_API_IMAGE}/${product.backImg}`}
                               alt=""
                             />
                           </div>
                         </Link>
                       </div>
-                      <div class="col-12 col-sm-8">
+                      <div className="col-12 col-sm-8">
                         <p className="mb-1 fw-medium text-dark">{product.title}</p>
                         <div className="d-flex align-items-center gap-2 mb-2">
                           <span className="fw-bold text-dark">₹{product.price?.toLocaleString('en-IN')}</span>
@@ -529,17 +529,17 @@ const resetFilters = () => {
                           Do not...
                         </p>
                         <div>
-                          <a class="icon-1" href="" onClick={(e) => { e.preventDefault(); toggleWishlist(product, navigate); }}>
+                          <a className="icon-1" href="" onClick={(e) => { e.preventDefault(); toggleWishlist(product, navigate); }}>
                             <i class={wishlist.some(item => item._id === product._id) ? "fa-solid fa-heart text-danger" : "fa-regular fa-heart"}></i>
                           </a>
                           <span
                             onClick={() => { const ok = addToCart(product, navigate); if (ok) openCart(); }}
-                            class="icon-1"
+                            className="icon-1"
                           >
-                            <i class="fa-solid fa-bag-shopping"></i>
+                            <i className="fa-solid fa-bag-shopping"></i>
                           </span>
-                          <a class="icon-1" href="" onClick={(e) => { e.preventDefault(); navigate(`/product/${product._id}`); }}>
-                            <i class="fa-solid fa-eye"></i>
+                          <a className="icon-1" href="" onClick={(e) => { e.preventDefault(); navigate(`/product/${product._id}`); }}>
+                            <i className="fa-solid fa-eye"></i>
                           </a>
                         </div>
                       </div>

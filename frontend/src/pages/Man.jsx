@@ -84,8 +84,7 @@ const Man = () => {
       </div>
 
       {/* Products section */}
-      <div className="row">
-        <div className="col-12 px-5">
+      <div className="px-3 px-md-4 px-lg-5">
 
           {/* Sort Bar */}
           <div className="sort-bar">
@@ -124,8 +123,7 @@ const Man = () => {
           </div>
 
           {/* Grid */}
-          <div className="mt-4">
-            {loading ? (
+          {loading ? (
               <div className="text-center mt-5 mb-5">
                 <div className="spinner-border text-danger" role="status"></div>
                 <p className="mt-3">Loading products...</p>
@@ -144,10 +142,9 @@ const Man = () => {
                 )}
               </div>
             )}
-          </div>
-        </div>
+      </div>
 
-        {/* Filter Offcanvas */}
+      {/* Filter Offcanvas */}
         <Offcanvas show={show} onHide={() => setShow(false)} placement="start">
           <Offcanvas.Header className="coll-offcanvas-header">
             <span className="coll-offcanvas-title">FILTER</span>
@@ -233,7 +230,6 @@ const Man = () => {
 
           </Offcanvas.Body>
         </Offcanvas>
-      </div>
     </div>
   );
 };

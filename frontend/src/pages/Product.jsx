@@ -248,10 +248,10 @@ const Product = () => {
   );
   return (
     <div>
-        <div class="container-section ">
-            <div><p class="mt-5 mb-4 breadcrumb-text"><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> / {product.title.toUpperCase()}</p></div>
-                <div class="row mb-5 ">
-                    <div class="col-12 col-lg-6 ">
+        <div className="container-section ">
+            <div><p className="mt-5 mb-4 breadcrumb-text"><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> / {product.title.toUpperCase()}</p></div>
+                <div className="row mb-5 ">
+                    <div className="col-12 col-lg-6 ">
                         <div style={{position: 'sticky', top: '20px'}}>
                            <Swiper
                                     key={`main-${id}`}
@@ -281,11 +281,11 @@ const Product = () => {
                                         <VideoSlide src={`${import.meta.env.VITE_API_IMAGE}/${product.video}`} />
                                       </SwiperSlide>
                                     )}
-                                    <div class="swiper-button-prev prev1 fs-5">
-                                        <i class="fa-solid fa-arrow-left"></i>
+                                    <div className="swiper-button-prev prev1 fs-5">
+                                        <i className="fa-solid fa-arrow-left"></i>
                                     </div>
-                                    <div class="swiper-button-next next1 fs-5">
-                                        <i class="fa-solid fa-arrow-right"></i>
+                                    <div className="swiper-button-next next1 fs-5">
+                                        <i className="fa-solid fa-arrow-right"></i>
                                     </div>
                                 </Swiper>
                                 <Swiper
@@ -327,37 +327,37 @@ const Product = () => {
                          </div>
                      </div>  
 
-                     <div class="col-12 col-lg-6  ps-3 ps-lg-5">
+                     <div className="col-12 col-lg-6  ps-3 ps-lg-5">
                     
-                        <div class="product-title-row">
-                          <h1 class="product-title">{product.title}</h1>
-                          <div class="product-rating-inline">
+                        <div className="product-title-row">
+                          <h1 className="product-title">{product.title}</h1>
+                          <div className="product-rating-inline">
                             <Box sx={{ "& > legend": { mt: 0 } }}>
                               <Rating name="product-rating" value={product.rating} readOnly size="small" precision={0.5} />
                             </Box>
-                            <span class="product-rating-count">({product.rating || 0})</span>
+                            <span className="product-rating-count">({product.rating || 0})</span>
                           </div>
                         </div>
                         
-                        <div class="product-price-row">
-                          <span class="product-mrp">MRP  <del>₹{product.price + (product.discount || 0)}</del></span>
-                          <span class="product-sale-price">₹{product.price}</span>
+                        <div className="product-price-row">
+                          <span className="product-mrp">MRP  <del>₹{product.price + (product.discount || 0)}</del></span>
+                          <span className="product-sale-price">₹{product.price}</span>
                           {product.discountPercentage > 0 && (
-                            <span class="product-save-badge">SAVE {product.discountPercentage}%</span>
+                            <span className="product-save-badge">SAVE {product.discountPercentage}%</span>
                           )}
                         </div>
-                        <p class="product-tax-note">Inclusive of all taxes</p>
+                        <p className="product-tax-note">Inclusive of all taxes</p>
                         
-                        <div class="border-divider">
+                        <div className="border-divider">
                             <div className={`stock-indicator ${product.stock === 0 ? 'out-of-stock' : product.stock < 10 ? 'low-stock' : 'in-stock'}`}>
-                                <div class="color"></div>
+                                <div className="color"></div>
                                 <span>
                                   {product.stock === 0 ? 'Out of Stock' : `${product.stock} in stock`}
                                 </span>
                             </div>
                         </div>
                         
-                        <div class="count mt-3 mb-3">
+                        <div className="count mt-3 mb-3">
                             <h6>Hurry up! Sales ends in : {formatTime(timeLeft)}</h6>
                         </div>
 
@@ -455,41 +455,41 @@ const Product = () => {
                                 </div>
                               </div>
 
-                            <div class="d-flex align-items-center gap-3 mb-4">
-                                <span class="fw-bold" style={{color: '#374151'}}>Quantity:</span>
-                                <div class="counter-btn">
-                                    <button class="btn-3" onClick={decrement}><i class="fa-solid fa-minus"></i></button>
+                            <div className="d-flex align-items-center gap-3 mb-4">
+                                <span className="fw-bold" style={{color: '#374151'}}>Quantity:</span>
+                                <div className="counter-btn">
+                                    <button className="btn-3" onClick={decrement}><i className="fa-solid fa-minus"></i></button>
                                     <span id="count">{count}</span>
-                                    <button class="btn-3" onClick={increment}><i class="fa-solid fa-plus"></i></button>
+                                    <button className="btn-3" onClick={increment}><i className="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
                             
-                            <div class="action-buttons">
-                                <div class="w-100">
+                            <div className="action-buttons">
+                                <div className="w-100">
                                   <button 
                                     onClick={handleAdd} 
-                                    class="add w-100"
+                                    className="add w-100"
                                     disabled={product.stock === 0}
                                     style={product.stock === 0 ? {opacity: 0.5, cursor: 'not-allowed'} : {}}
                                   >
-                                    <i class="fa-solid fa-cart-shopping me-2"></i>
+                                    <i className="fa-solid fa-cart-shopping me-2"></i>
                                     {product.stock === 0 ? 'OUT OF STOCK' : 'ADD TO CART'}
                                   </button>
                                 </div>
-                                <div class="w-100">
+                                <div className="w-100">
                                   <button 
                                     onClick={handleBuyNow} 
-                                    class="add w-100" 
+                                    className="add w-100" 
                                     style={product.stock === 0 ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
                                     disabled={product.stock === 0}
                                   >
-                                    <i class="fa-solid fa-bolt me-2"></i>
+                                    <i className="fa-solid fa-bolt me-2"></i>
                                     BUY IT NOW
                                   </button>
                                 </div>
                             </div>
-                            <div class="mt-3 mb-3">
-                                <ul class="list-unstyled brand d-flex  justify-content-between flex-wrap">
+                            <div className="mt-3 mb-3">
+                                <ul className="list-unstyled brand d-flex  justify-content-between flex-wrap">
                                     <li 
                                       onClick={(e) => { e.preventDefault(); toggleWishlist(product, navigate); }}
                                       style={{cursor: 'pointer'}}
@@ -497,20 +497,20 @@ const Product = () => {
                                       <i class={isInWishlist ? "fa-solid fa-heart text-danger" : "fa-regular fa-heart"}></i> 
                                       {isInWishlist ? 'IN WISHLIST' : 'ADD TO WISHLIST'}
                                     </li>
-                                    <li style={{cursor: 'pointer'}}> <i class="fa-solid fa-book"></i> SIZEGUIDE</li>
-                                    <li style={{cursor: 'pointer'}}> <i class="fa-solid fa-book-open-reader"></i> QUESTION</li>
-                                    <li onClick={handleShare} style={{cursor: 'pointer'}}> <i class="fa-solid fa-share-nodes"></i> SHARE</li>
+                                    <li style={{cursor: 'pointer'}}> <i className="fa-solid fa-book"></i> SIZEGUIDE</li>
+                                    <li style={{cursor: 'pointer'}}> <i className="fa-solid fa-book-open-reader"></i> QUESTION</li>
+                                    <li onClick={handleShare} style={{cursor: 'pointer'}}> <i className="fa-solid fa-share-nodes"></i> SHARE</li>
                                 </ul>
                             </div>
 
-                            <div class="delivery-info">
+                            <div className="delivery-info">
                                 <p><span>🚚 Delivery:</span> Estimated delivery time: 5-7 days</p>
                                 <p><span>↩️ Returns:</span> Within 45 days of purchase</p>
-                                <p class="mb-0"><span>📦 SKU:</span> 445</p>
+                                <p className="mb-0"><span>📦 SKU:</span> 445</p>
                             </div>
-                            <div class="payment-card">
+                            <div className="payment-card">
                                <h6>Payment & Security</h6>
-                               <ul class="list-unstyled d-flex  gap-3 payment">
+                               <ul className="list-unstyled d-flex  gap-3 payment">
                                 <li><img src="/img/visa.png" alt=""/></li>
                                 <li><img src="/img/paypal.png" alt=""/></li>
                                 <li><img src="/img/contactless.png" alt=""/></li>
@@ -518,17 +518,17 @@ const Product = () => {
                                </ul>
                                <p>Your payment information is processed securely. We do not store credit card details nor have access to your credit card information.</p>
                             </div>
-                            <div class="icon-card d-flex justify-content-between">
-                                <div class="text-center icon-card-item">
-                                    <div class="icon-circle"><img src="/img/return.png" alt="Return" class="icon-img" /></div>
+                            <div className="icon-card d-flex justify-content-between">
+                                <div className="text-center icon-card-item">
+                                    <div className="icon-circle"><img src="/img/return.png" alt="Return" className="icon-img" /></div>
                                     <h6>2 Days Return</h6>
                                 </div>
-                                <div class="text-center icon-card-item icon-card-middle">
-                                    <div class="icon-circle"><img src="/img/Exchange.png" alt="Exchange" class="icon-img" /></div>
+                                <div className="text-center icon-card-item icon-card-middle">
+                                    <div className="icon-circle"><img src="/img/Exchange.png" alt="Exchange" className="icon-img" /></div>
                                     <h6>10 Days Exchange</h6>
                                 </div>
-                                <div class="text-center icon-card-item">
-                                    <div class="icon-circle"><img src="/img/COD.png" alt="Cash On Delivery" class="icon-img" /></div>
+                                <div className="text-center icon-card-item">
+                                    <div className="icon-circle"><img src="/img/COD.png" alt="Cash On Delivery" className="icon-img" /></div>
                                     <h6>Cash On Delivery</h6>
                                 </div>
                             </div>

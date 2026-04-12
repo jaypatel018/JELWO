@@ -79,7 +79,7 @@ const Collections = () => {
       </div>
 
       {/* Content */}
-      <div className="col-12 px-3 px-md-4 px-lg-5">
+      <div className="px-3 px-md-4 px-lg-5">
         {/* Sort Bar */}
         <div className="coll-sort-bar">
           <span onClick={() => setShow(true)} className="coll-filter-btn">

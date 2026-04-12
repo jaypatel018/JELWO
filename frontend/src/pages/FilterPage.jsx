@@ -131,8 +131,7 @@ const FilterPage = () => {
       </div>
 
       {/* Products */}
-      <div className="row">
-        <div className="col-12 px-5">
+      <div className="px-3 px-md-4 px-lg-5">
 
           {/* Sort Bar */}
           <div className="sort-bar">
@@ -171,8 +170,7 @@ const FilterPage = () => {
           </div>
 
           {/* Grid */}
-          <div className="mt-4">
-            {loading ? (
+          {loading ? (
               <div className="text-center mt-5 mb-5">
                 <div className="spinner-border text-danger" role="status"></div>
                 <p className="mt-3">Loading products...</p>
@@ -191,8 +189,6 @@ const FilterPage = () => {
                 )}
               </div>
             )}
-          </div>
-        </div>
 
         {/* Filter Offcanvas */}
         <Offcanvas show={show} onHide={() => setShow(false)} placement="start">

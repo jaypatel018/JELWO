@@ -481,116 +481,116 @@ const Navbar = () => {
 </div>
 </header>
 {/*offcanvas for navbar */}
-    <div class="offcanvas offcanvas-start mobile-menu-offcanvas" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-heade mobile-menu-header">
-    <h5 class="offcanvas-title mobile-menu-title" id="offcanvasExampleLabel">
-      <i class="fa-solid fa-bars me-2"></i>
+    <div className="offcanvas offcanvas-start mobile-menu-offcanvas" tabIndex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div className="offcanvas-heade mobile-menu-header">
+    <h5 className="offcanvas-title mobile-menu-title" id="offcanvasExampleLabel">
+      <i className="fa-solid fa-bars me-2"></i>
       Menu
     </h5>
-    <button type="button" class="mobile-menu-close" data-bs-dismiss="offcanvas" aria-label="Close">
-      <i class="fa-solid fa-xmark"></i>
+    <button type="button" className="mobile-menu-close" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i className="fa-solid fa-xmark"></i>
     </button>
   </div>
-  <div class="offcanvas-body mobile-menu-body">
-    <div class="mobile-menu-list">
+  <div className="offcanvas-body mobile-menu-body">
+    <div className="mobile-menu-list">
 
       {/* Home */}
-      <div class="mobile-menu-item">
-        <div class="mobile-menu-link-simple" onClick={() => handleNavigation('/')}>
-          <span class="menu-text">Home</span>
+      <div className="mobile-menu-item">
+        <div className="mobile-menu-link-simple" onClick={() => handleNavigation('/')}>
+          <span className="menu-text">Home</span>
         </div>
       </div>
 
       {/* Shop */}
-      <div class="mobile-menu-item">
-        <div class="mobile-menu-link" onClick={() => handleMenuToggle(1)} aria-expanded={open1}>
-          <span class="menu-text">Shop</span>
+      <div className="mobile-menu-item">
+        <div className="mobile-menu-link" onClick={() => handleMenuToggle(1)} aria-expanded={open1}>
+          <span className="menu-text">Shop</span>
           <i class={`fa-solid ${open1 ? 'fa-minus' : 'fa-plus'} menu-icon`}></i>
         </div>
         <Collapse in={open1}>
-          <div class="mobile-submenu">
-            <div class="submenu-link" onClick={() => handleNavigation('/showmore')}>All</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/category/Ring')}>Rings</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/category/Neclace')}>Necklaces</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/category/Earrings')}>Earrings</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/category/Bracelets')}>Bracelets</div>
+          <div className="mobile-submenu">
+            <div className="submenu-link" onClick={() => handleNavigation('/showmore')}>All</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/category/Ring')}>Rings</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/category/Neclace')}>Necklaces</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/category/Earrings')}>Earrings</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/category/Bracelets')}>Bracelets</div>
           </div>
         </Collapse>
       </div>
 
       {/* Collections */}
-      <div class="mobile-menu-item">
-        <div class="mobile-menu-link" onClick={() => handleMenuToggle(2)} aria-expanded={open2}>
-          <span class="menu-text">Collections</span>
+      <div className="mobile-menu-item">
+        <div className="mobile-menu-link" onClick={() => handleMenuToggle(2)} aria-expanded={open2}>
+          <span className="menu-text">Collections</span>
           <i class={`fa-solid ${open2 ? 'fa-minus' : 'fa-plus'} menu-icon`}></i>
         </div>
         <Collapse in={open2}>
-          <div class="mobile-submenu">
-            <div class="submenu-link" onClick={() => handleNavigation('/collections')}>All Collections</div>
-            <div class="mobile-submenu-section">GENDER</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/gender/Men')}>Men</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/gender/Women')}>Women</div>
-            <div class="mobile-submenu-section">OCCASION</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/occasion/Party Wear')}>Party Wear</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/occasion/Daily Wear')}>Daily Wear</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/occasion/Festive Collections')}>Festive Collections</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/occasion/Wedding Collections')}>Wedding Collections</div>
-            <div class="mobile-submenu-section">COLLECTIONS</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/collection/Statement Collections')}>Statement Collections</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/collection/Vintage Collections')}>Vintage Collections</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/collection/Luxury Collections')}>Luxury Collections</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/filter/collection/Branded Collections')}>Branded Collections</div>
+          <div className="mobile-submenu">
+            <div className="submenu-link" onClick={() => handleNavigation('/collections')}>All Collections</div>
+            <div className="mobile-submenu-section">GENDER</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/gender/Men')}>Men</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/gender/Women')}>Women</div>
+            <div className="mobile-submenu-section">OCCASION</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/occasion/Party Wear')}>Party Wear</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/occasion/Daily Wear')}>Daily Wear</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/occasion/Festive Collections')}>Festive Collections</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/occasion/Wedding Collections')}>Wedding Collections</div>
+            <div className="mobile-submenu-section">COLLECTIONS</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/collection/Statement Collections')}>Statement Collections</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/collection/Vintage Collections')}>Vintage Collections</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/collection/Luxury Collections')}>Luxury Collections</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/filter/collection/Branded Collections')}>Branded Collections</div>
           </div>
         </Collapse>
       </div>
 
       {/* Offers */}
-      <div class="mobile-menu-item">
-        <div class="mobile-menu-link-simple" onClick={() => handleNavigation('/offers')}>
-          <span class="menu-text">Offers</span>
+      <div className="mobile-menu-item">
+        <div className="mobile-menu-link-simple" onClick={() => handleNavigation('/offers')}>
+          <span className="menu-text">Offers</span>
         </div>
       </div>
 
       {/* Blog */}
-      <div class="mobile-menu-item">
-        <div class="mobile-menu-link-simple" onClick={() => handleNavigation('/blog')}>
-          <span class="menu-text">Blog</span>
+      <div className="mobile-menu-item">
+        <div className="mobile-menu-link-simple" onClick={() => handleNavigation('/blog')}>
+          <span className="menu-text">Blog</span>
         </div>
       </div>
 
       {/* Pages */}
-      <div class="mobile-menu-item">
-        <div class="mobile-menu-link" onClick={() => handleMenuToggle(3)} aria-expanded={open3}>
-          <span class="menu-text">Pages</span>
+      <div className="mobile-menu-item">
+        <div className="mobile-menu-link" onClick={() => handleMenuToggle(3)} aria-expanded={open3}>
+          <span className="menu-text">Pages</span>
           <i class={`fa-solid ${open3 ? 'fa-minus' : 'fa-plus'} menu-icon`}></i>
         </div>
         <Collapse in={open3}>
-          <div class="mobile-submenu">
-            <div class="submenu-link" onClick={() => handleNavigation('/aboutus')}>About Us</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/contact')}>Contact</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/storelocation')}>Store Location</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/faqpage')}>FAQ's</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/term')}>Terms & Conditions</div>
-            <div class="submenu-link" onClick={() => handleNavigation('/privacy')}>Privacy Policy</div>
+          <div className="mobile-submenu">
+            <div className="submenu-link" onClick={() => handleNavigation('/aboutus')}>About Us</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/contact')}>Contact</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/storelocation')}>Store Location</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/faqpage')}>FAQ's</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/term')}>Terms & Conditions</div>
+            <div className="submenu-link" onClick={() => handleNavigation('/privacy')}>Privacy Policy</div>
           </div>
         </Collapse>
       </div>
 
       {/* Profile */}
       <SignedIn>
-        <div class="mobile-menu-item">
-          <div class="mobile-menu-link-simple" onClick={() => handleNavigation('/profile')}>
-            <span class="menu-text">
-              <i class="fa-regular fa-user me-2" style={{color:'#a52a2a'}}></i>My Profile
+        <div className="mobile-menu-item">
+          <div className="mobile-menu-link-simple" onClick={() => handleNavigation('/profile')}>
+            <span className="menu-text">
+              <i className="fa-regular fa-user me-2" style={{color:'#a52a2a'}}></i>My Profile
             </span>
           </div>
         </div>
       </SignedIn>
       <SignedOut>
-        <div class="mobile-menu-item">
-          <div class="mobile-menu-link-simple" onClick={() => handleNavigation('/sign-in')}>
-            <span class="menu-text">
-              <i class="fa-regular fa-user me-2" style={{color:'#a52a2a'}}></i>Sign In
+        <div className="mobile-menu-item">
+          <div className="mobile-menu-link-simple" onClick={() => handleNavigation('/sign-in')}>
+            <span className="menu-text">
+              <i className="fa-regular fa-user me-2" style={{color:'#a52a2a'}}></i>Sign In
             </span>
           </div>
         </div>
@@ -603,14 +603,14 @@ const Navbar = () => {
     </div>
 {/* modal for admin login */}
    
-<div class="modal  fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content ">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"> <i class="fa-regular fa-user"></i> Admin Login </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div className="modal  fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content ">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalLabel"> <i className="fa-regular fa-user"></i> Admin Login </h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div className="modal-body">
        <form onSubmit={submit} >
          <div className='admin-field'>
             <input 
@@ -631,7 +631,7 @@ const Navbar = () => {
             />
          </div>
         <div className='text-end mt-4'>
-             <button type="submit" class="btn btn-danger"> <i class="fa-solid fa-lock"></i> Login</button>
+             <button type="submit" className="btn btn-danger"> <i className="fa-solid fa-lock"></i> Login</button>
         </div>
        </form>
       </div>

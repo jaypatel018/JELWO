@@ -85,11 +85,11 @@ const About = () => {
                </div>
             </div>
         </SwiperSlide>
-        <div class="swiper-button-next next1">
-            <i class="fa-solid fa-circle-arrow-right"></i>
+        <div className="swiper-button-next next1">
+            <i className="fa-solid fa-circle-arrow-right"></i>
         </div>
-        <div class="swiper-button-prev prev1">
-            <i class="fa-solid fa-circle-arrow-left"></i>
+        <div className="swiper-button-prev prev1">
+            <i className="fa-solid fa-circle-arrow-left"></i>
         </div>
       </Swiper>
           </div>

@@ -17,17 +17,17 @@ const Contact = () => {
                    <h1 data-aos="fade-up" className='text-center pt-5'>Quick Support</h1>
                    <div className="contact-card mt-5 pb-5 " >
                     <div className='text-center'>
-                      <span className='contact-icon'><i class="fa-solid fa-location-dot text-danger fs-5"></i></span>
+                      <span className='contact-icon'><i className="fa-solid fa-location-dot text-danger fs-5"></i></span>
                       <h4 className='mt-5'>STORE LOCATION</h4>
                       <p>720,Bodakdev,Ahemdabad,Gujarat,380059</p>
                     </div>
                     <div className='text-center'>
-                      <span className='contact-icon'><i class="fa-solid fa-phone-volume text-danger fs-5"></i></span>
+                      <span className='contact-icon'><i className="fa-solid fa-phone-volume text-danger fs-5"></i></span>
                       <h4 className='mt-5'>quick CALL</h4>
                       <p>+91-6355520913</p>
                     </div>
                     <div className='text-center'>
-                      <span className='contact-icon'><i class="fa-solid fa-envelope text-danger fs-5"></i></span>
+                      <span className='contact-icon'><i className="fa-solid fa-envelope text-danger fs-5"></i></span>
                       <h4 className='mt-5'>SUPPORT EMAIL</h4>
                       <p>jelwo1824@gmail.com</p>
                     </div>  
@@ -129,8 +129,8 @@ const Contact = () => {
            <div><h3 className='text-danger'>CANADA</h3></div>
           </div>
         </SwiperSlide>
-         <div class="swiper-button-next next1"><i class="fa-solid fa-arrow-right text-secondary fs-3"></i></div>
-    <div class="swiper-button-prev prev1"><i class="fa-solid fa-arrow-left text-secondary fs-3"></i></div>
+         <div className="swiper-button-next next1"><i className="fa-solid fa-arrow-right text-secondary fs-3"></i></div>
+    <div className="swiper-button-prev prev1"><i className="fa-solid fa-arrow-left text-secondary fs-3"></i></div>
       </Swiper>
         </div>
         <div className='contact-form pt-5 pb-5'>
