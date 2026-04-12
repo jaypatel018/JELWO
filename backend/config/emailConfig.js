@@ -377,7 +377,7 @@ export const sendCouponAnnouncementEmail = async (coupon, users) => {
                 <!-- CTA Button -->
                 <tr>
                   <td style="padding:0 40px 36px;text-align:center;">
-                    <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/showmore"
+                    <a href="${process.env.FRONTEND_URL || 'https://jelwo-six.vercel.app/'}"
                        style="display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;padding:16px 40px;border-radius:50px;font-size:16px;font-weight:700;letter-spacing:0.5px;">
                       Shop Now &rarr;
                     </a>

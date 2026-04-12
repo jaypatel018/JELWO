@@ -655,9 +655,9 @@ const Dashboard = () => {
           ];
           return (
             <div className="table-card">
-              <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:20}}>
+              <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:20, flexWrap:'wrap', gap:8}}>
                 <h3 style={{margin:0}}><i className="fa-solid fa-chart-simple" style={{color:'#4361ee'}}></i> Site Activity</h3>
-                <span style={{fontSize:12,color:'#9ca3af',background:'#f3f4f6',padding:'4px 10px',borderRadius:20}}>
+                <span style={{fontSize:12,color:'#9ca3af',background:'#f3f4f6',padding:'4px 10px',borderRadius:20, whiteSpace:'nowrap'}}>
                   Total: {total.toLocaleString('en-IN')} interactions
                 </span>
               </div>
@@ -667,20 +667,18 @@ const Dashboard = () => {
                   const pct = Math.round((s.value / total) * 100);
                   return (
                     <div key={s.label}>
-                      {/* Label row */}
-                      <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8}}>
+                      <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8, flexWrap:'wrap', gap:4}}>
                         <div style={{display:'flex', alignItems:'center', gap:10}}>
                           <div style={{width:34,height:34,borderRadius:8,background:s.bg,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
                             <i className={`fa-solid ${s.icon}`} style={{color:s.color,fontSize:14}}></i>
                           </div>
                           <span style={{fontSize:14,fontWeight:600,color:'#374151'}}>{s.label}</span>
                         </div>
-                        <div style={{display:'flex', alignItems:'center', gap:8}}>
-                          <span style={{fontSize:18,fontWeight:800,color:'#1a1a2e'}}>{s.value.toLocaleString('en-IN')}</span>
-                          <span style={{fontSize:12,color:'#fff',background:s.color,padding:'2px 8px',borderRadius:20,fontWeight:600}}>{pct}%</span>
+                        <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0, minWidth:0}}>
+                          <span style={{fontSize:16,fontWeight:800,color:'#1a1a2e'}}>{s.value.toLocaleString('en-IN')}</span>
+                          <span style={{fontSize:11,color:'#fff',background:s.color,padding:'2px 6px',borderRadius:20,fontWeight:600,whiteSpace:'nowrap',flexShrink:0}}>{pct}%</span>
                         </div>
                       </div>
-                      {/* Progress bar */}
                       <div style={{height:8,background:'#f3f4f6',borderRadius:99,overflow:'hidden'}}>
                         <div style={{height:'100%',width:`${pct}%`,background:s.color,borderRadius:99,transition:'width 0.6s ease'}}></div>
                       </div>
@@ -698,24 +696,16 @@ const Dashboard = () => {
           {topCategoriesData.length === 0 ? (
             <div className="empty-table"><i className="fa-solid fa-inbox"></i><p>No order data yet</p></div>
           ) : (
-            <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'24px',height:300}}>
-              <ResponsiveContainer width="55%" height={260}>
+            <div className="top-categories-wrap">
+              <ResponsiveContainer width="100%" height={280}>
                 <PieChart>
-                  <Pie data={topCategoriesData} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="value">
+                  <Pie data={topCategoriesData} cx="50%" cy="45%" innerRadius={55} outerRadius={90} paddingAngle={3} dataKey="value">
                     {topCategoriesData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
                   </Pie>
                   <Tooltip formatter={(value, name) => [value + ' sold', name]} />
+                  <Legend iconType="circle" iconSize={10} />
                 </PieChart>
               </ResponsiveContainer>
-              <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
-                {topCategoriesData.map((entry, i) => (
-                  <div key={i} style={{display:'flex',alignItems:'center',gap:'10px',fontSize:'13px'}}>
-                    <span style={{width:14,height:14,borderRadius:3,background:entry.color,flexShrink:0}}></span>
-                    <span style={{color:'#374151',fontWeight:500}}>{entry.name}</span>
-                    <span style={{color:'#9ca3af',marginLeft:'auto',paddingLeft:12}}>{entry.value}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           )}
         </div>

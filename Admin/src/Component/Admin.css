@@ -35,6 +35,7 @@
   color: white;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 20px;
   box-shadow: 0 4px 6px rgba(22, 48, 85, 0.2);
   z-index: 1000;
@@ -81,10 +82,14 @@
   padding: 10px;
 }
 .content{
-  width:100%;
+  width: calc(100% - 220px);
 }
 .humber{
   display: none;
+  position: absolute;
+  left: 20px;
+  cursor: pointer;
+  color: white;
 }
 .admin-offcanvas .offcanvas-body{
   background-color: black;
@@ -224,68 +229,29 @@ ul{
 }
 /* ===== Page Entry Animation ===== */
 .dashboard {
-  padding: 30px;
-  animation: pageFade 0.7s ease-in-out;
+  padding: 20px;
+  animation: pageFade 0.5s ease-in-out;
 }
 
 @keyframes pageFade {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+
 .stat-card {
   padding: 25px;
   border-radius: 16px;
-  color: white;
-  text-align: center;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-  transition: all 0.4s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
   overflow: hidden;
 }
 
-/* Floating animation */
-.stat-card {
-  animation: floatCard 4s ease-in-out infinite;
-}
-
-@keyframes floatCard {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
-}
-
-/* Hover Glow Effect */
 .stat-card:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-.stat-card::before {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    rgba(255,255,255,0.2),
-    transparent,
-    rgba(255,255,255,0.2)
-  );
-  top: -50%;
-  left: -50%;
-  transform: rotate(25deg);
-  animation: shine 6s linear infinite;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
-@keyframes shine {
-  0% { transform: translateX(-100%) rotate(25deg); }
-  100% { transform: translateX(100%) rotate(25deg); }
-}
 /* sidebar page */
 /* ===== Sidebar Base ===== */
 .sidebar {
@@ -370,4 +336,73 @@ ul{
 
 .sidebar-menu a:hover .icon {
   transform: translateX(3px);
+}
+
+/* ── Mobile Sidebar Header ── */
+.mobile-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 8px;
+}
+
+.mobile-sidebar-header h4 {
+  color: white;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.mobile-sidebar-close {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Responsive Content ── */
+@media (max-width: 1024px) {
+  .sidebar { display: none !important; }
+  .humber { display: block !important; }
+  .content { margin-left: 0 !important; width: 100% !important; }
+}
+
+@media (max-width: 768px) {
+  .content { padding: 12px !important; }
+  .admin-product-page { padding: 16px !important; }
+  .dashboard { padding: 12px !important; }
+  .top-bar { flex-direction: column; align-items: flex-start !important; gap: 10px; }
+  .top-bar h2 { font-size: 20px !important; }
+
+  /* Charts responsive */
+  .charts-row { grid-template-columns: 1fr !important; }
+  .tables-row { grid-template-columns: 1fr !important; }
+  .stats-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Tables scroll */
+  .ao-table-wrap,
+  .table-wrapper,
+  .ac-table-wrap,
+  .table-container { overflow-x: auto; }
+
+  /* Form rows */
+  .form-grid { grid-template-columns: 1fr !important; }
+  .form-row { grid-template-columns: 1fr !important; }
+  .ac-form-row { grid-template-columns: 1fr !important; }
+  .category-form-content { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  .stat-card { flex-direction: row; }
+  .chart-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .chart-toggle { width: 100%; }
+  .chart-toggle button { flex: 1; }
+  .pl-summary { flex-direction: column; }
+  .oc-pills { flex-direction: column; }
 }
