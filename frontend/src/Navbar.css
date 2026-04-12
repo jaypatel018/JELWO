@@ -677,7 +677,7 @@
     /* Hamburger bigger on mobile */
     .mobile-menu-toggle {
         font-size: 26px;
-        padding: 6px 8px;
+        padding: 0;
     }
 
     /* Logo centered */
@@ -705,7 +705,7 @@
 
 @media (max-width: 576px) {
     .navbar-top-content {
-        padding: 10px 12px;
+        padding: 10px 0;
         flex-wrap: nowrap;
         position: relative;
     }
