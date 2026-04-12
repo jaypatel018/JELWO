@@ -150,14 +150,6 @@ const Cartoffacnvas = () => {
                     <span>Subtotal</span>
                     <span className="summary-value">Rs. {subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="summary-row">
-                    <span>Items</span>
-                    <span className="summary-value">{totalQty}</span>
-                  </div>
-                  <p className="cart-note">
-                    <i className="fa-solid fa-circle-info"></i>
-                    Taxes and shipping calculated at checkout
-                  </p>
                 </div>
                 <button className="checkout-btn" onClick={handleBuyNow}>
                   <i className="fa-solid fa-lock me-2"></i>

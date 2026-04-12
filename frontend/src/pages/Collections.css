@@ -103,9 +103,10 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
     padding: 8px 0 32px;
+    align-items: start;
 }
 @media (max-width: 900px) { .coll-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 617px) { .coll-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 617px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 @media (max-width: 380px) { .coll-grid { grid-template-columns: repeat(1, 1fr); } }
 
 /* Offcanvas */
@@ -264,3 +265,29 @@ input[type="checkbox"] { width: 16px; height: 16px; margin-right: 8px; vertical-
 
 .coll-avail-count { font-size: 13px; color: #9ca3af; margin-left: auto; }
 .coll-type-list li { display: flex; justify-content: space-between; align-items: center; }
+
+@media (max-width: 768px) {
+  .collections-banner-img {
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+  }
+  .coll-title-section {
+    padding: 20px 16px 16px;
+  }
+  .coll-page-title {
+    font-size: 22px;
+    letter-spacing: 2px;
+  }
+  .coll-sort-bar {
+    padding: 10px 0;
+  }
+  .coll-sort-select {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+  .coll-filter-info {
+    padding: 8px 0;
+    margin-bottom: 10px;
+  }
+}

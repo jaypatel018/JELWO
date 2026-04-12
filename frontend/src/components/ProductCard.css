@@ -125,3 +125,14 @@
 }
 
 .pc-btn:hover { background: #a52a2a; color: white; border-color: #a52a2a; }
+
+@media (max-width: 617px) {
+  .pc-body { padding: 8px 0 0; }
+  .pc-title { font-size: 12px; margin-bottom: 4px; padding: 0 6px; }
+  .pc-price-row { gap: 4px; margin-bottom: 8px; padding: 0 6px; }
+  .pc-price { font-size: 12px; }
+  .pc-orig, .pc-pct { font-size: 11px; }
+  .pc-btn { padding: 8px 6px; font-size: 12px; }
+  .pc-badge { font-size: 10px; padding: 3px 6px; top: 6px; left: 6px; }
+  .pc-wish { font-size: 15px; bottom: 6px; left: 6px; }
+}

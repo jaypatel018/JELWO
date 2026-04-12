@@ -17,6 +17,7 @@ const Profile = () => {
   const { user, isLoaded } = useUser();
   const { signOut, openUserProfile } = useClerk();
   const [activeTab, setActiveTab] = useState('profile');
+  const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'content'
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState(null);
@@ -241,6 +242,7 @@ const Profile = () => {
   const handleTabClick = (key) => {
     if (key === 'logout') { signOut(); return; }
     setActiveTab(key);
+    setMobileView('content');
   };
 
   const initials = user?.firstName?.charAt(0).toUpperCase() + (user?.lastName?.charAt(0).toUpperCase() || '');
@@ -251,17 +253,31 @@ const Profile = () => {
   return (
     <div className="pf-container">
       <h1 className="pf-page-title">MY ACCOUNT</h1>
+      <div className="pf-mobile-account-header">
+        {mobileView === 'content' ? (
+          <button className="pf-mobile-back-btn" onClick={() => setMobileView('menu')}>
+            <i className="fa-solid fa-arrow-left"></i>
+            <span>{TABS.find(t => t.key === activeTab)?.label}</span>
+          </button>
+        ) : (
+          'My Account'
+        )}
+      </div>
 
       <div className="pf-layout">
-        {/* Sidebar */}
-        <aside className="pf-sidebar">
+        {/* Sidebar — hidden on mobile when content is shown */}
+        <aside className={`pf-sidebar ${mobileView === 'content' ? 'pf-sidebar-hidden-mobile' : ''}`}>
           <div className="pf-sidebar-user">
             <div className="pf-avatar-sm">
               {user?.imageUrl
                 ? <img src={user.imageUrl} alt={user.fullName} />
                 : <span>{initials}</span>}
             </div>
-            <div className="pf-sidebar-time">{new Date().toLocaleTimeString()}</div>
+            <div className="pf-sidebar-user-info">
+              <p className="pf-sidebar-user-name">{user?.firstName} {user?.lastName}</p>
+              <p className="pf-sidebar-user-email">{user?.primaryEmailAddress?.emailAddress}</p>
+              {editedInfo.phone && <p className="pf-sidebar-user-phone">+91 {editedInfo.phone}</p>}
+            </div>
           </div>
 
           <nav className="pf-nav">
@@ -278,19 +294,23 @@ const Profile = () => {
           </nav>
         </aside>
 
-        <main className="pf-main">
+        <main className={`pf-main ${mobileView === 'menu' ? 'pf-main-hidden-mobile' : ''}`}>
 
           {activeTab === 'profile' && (
             <div className="pf-card">
               <div className="pf-card-header">
-                <h2>{greeting()}!</h2>
-                {!isEditing
-                  ? <button className="pf-edit-btn" onClick={() => setIsEditing(true)}><i className="fa-solid fa-pen-to-square"></i></button>
-                  : <div className="d-flex gap-2">
-                      <button className="pf-save-btn" onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
-                      <button className="pf-cancel-btn" onClick={() => { setIsEditing(false); loadProfileFromDB(); }}>Cancel</button>
-                    </div>
-                }
+                <h2 className="pf-desktop-greeting">{greeting()}!</h2>
+                <h2 className="pf-mobile-section-title">My Profile</h2>
+                {/* Desktop only top buttons */}
+                <div className="pf-header-actions-desktop">
+                  {!isEditing
+                    ? <button className="pf-edit-btn" onClick={() => setIsEditing(true)}><i className="fa-solid fa-pen-to-square"></i></button>
+                    : <div className="d-flex gap-2">
+                        <button className="pf-save-btn" onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
+                        <button className="pf-cancel-btn" onClick={() => { setIsEditing(false); loadProfileFromDB(); }}>Cancel</button>
+                      </div>
+                  }
+                </div>
               </div>
               <div className="pf-profile-grid">
                 <div className="pf-field">
@@ -356,6 +376,23 @@ const Profile = () => {
                     <div className="pf-field-value">{editedInfo.gender || '—'}</div>
                   )}
                 </div>
+              </div>
+
+              {/* Bottom action buttons — mobile only */}
+              <div className="pf-bottom-actions-mobile">
+                {!isEditing
+                  ? <button className="pf-bottom-edit-btn" onClick={() => setIsEditing(true)}>
+                      <i className="fa-solid fa-pen-to-square"></i> Edit Profile
+                    </button>
+                  : <div className="pf-bottom-save-row">
+                      <button className="pf-bottom-save-btn" onClick={handleSave} disabled={saving}>
+                        {saving ? 'Saving...' : 'Save Changes'}
+                      </button>
+                      <button className="pf-bottom-cancel-btn" onClick={() => { setIsEditing(false); loadProfileFromDB(); }}>
+                        Cancel
+                      </button>
+                    </div>
+                }
               </div>
             </div>
           )}

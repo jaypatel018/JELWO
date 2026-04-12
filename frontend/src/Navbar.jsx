@@ -509,6 +509,7 @@ const Navbar = () => {
         </div>
         <Collapse in={open1}>
           <div class="mobile-submenu">
+            <div class="submenu-link" onClick={() => handleNavigation('/showmore')}>All</div>
             <div class="submenu-link" onClick={() => handleNavigation('/filter/category/Ring')}>Rings</div>
             <div class="submenu-link" onClick={() => handleNavigation('/filter/category/Neclace')}>Necklaces</div>
             <div class="submenu-link" onClick={() => handleNavigation('/filter/category/Earrings')}>Earrings</div>
@@ -525,6 +526,7 @@ const Navbar = () => {
         </div>
         <Collapse in={open2}>
           <div class="mobile-submenu">
+            <div class="submenu-link" onClick={() => handleNavigation('/collections')}>All Collections</div>
             <div class="mobile-submenu-section">GENDER</div>
             <div class="submenu-link" onClick={() => handleNavigation('/filter/gender/Men')}>Men</div>
             <div class="submenu-link" onClick={() => handleNavigation('/filter/gender/Women')}>Women</div>

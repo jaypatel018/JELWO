@@ -147,3 +147,36 @@
 .banner { padding:0 25px !important; }
 @media (max-width:768px) { .user { min-height:260px; } .user-img { width:70px; height:70px; } }
 @media (max-width:400px) { .search-bottom { position:inherit; margin:10px 0; } .sub { width:100%; } .user { min-height:240px; } .user-img { width:60px; height:60px; } }
+
+/* ── Hero Banner Responsive ── */
+.main-section {
+  width: 100%;
+  overflow: hidden;
+}
+
+.main-relative img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .main-relative img {
+    height: 300px;
+    object-position: center top;
+  }
+
+  .main-absolute h1 { font-size: 28px !important; }
+  .main-absolute p  { font-size: 14px !important; }
+}
+
+@media (max-width: 480px) {
+  .main-relative img {
+    height: 220px;
+  }
+
+  .main-absolute h1 { font-size: 22px !important; }
+  .main-absolute p  { font-size: 12px !important; }
+}

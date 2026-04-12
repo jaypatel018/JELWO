@@ -52,33 +52,34 @@
   border-bottom: 1px solid #f3f4f6;
 }
 
-.pf-avatar-sm {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+.pf-sidebar-user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-sidebar-user-name {
+  font-size: 14px;
   font-weight: 700;
-  color: #374151;
+  color: #1f2937;
+  margin: 0 0 2px;
+  white-space: nowrap;
   overflow: hidden;
-  flex-shrink: 0;
+  text-overflow: ellipsis;
 }
 
-.pf-avatar-sm img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.pf-sidebar-time {
-  font-size: 13px;
+.pf-sidebar-user-email {
+  font-size: 12px;
   color: #6b7280;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pf-sidebar-user-phone {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
 }
 
 .pf-nav {
@@ -366,15 +367,29 @@
   cursor: pointer;
 }
 
-/* Empty state */
+/* Empty state — fully centered */
 .pf-empty {
   text-align: center;
-  padding: 48px 20px;
+  padding: 60px 20px;
   color: #9ca3af;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.pf-empty i { font-size: 48px; margin-bottom: 16px; display: block; }
-.pf-empty p { font-size: 15px; margin-bottom: 20px; }
+.pf-empty i {
+  font-size: 56px;
+  margin-bottom: 16px;
+  display: block;
+  color: #d1d5db;
+}
+
+.pf-empty p {
+  font-size: 15px;
+  margin-bottom: 20px;
+  color: #9ca3af;
+}
 
 /* Orders */
 .pf-order-card {
@@ -654,3 +669,492 @@
   .pf-track-step span { font-size: 10px; }
 }
 
+
+/* ── Mobile Profile Layout (like Ajio/Myntra style) ── */
+@media (max-width: 768px) {
+  .pf-container {
+    padding: 0 0 60px;
+    background: #f3f4f6;
+    max-width: 100%;
+  }
+
+  .pf-page-title {
+    display: none;
+  }
+
+  /* Mobile header — "My Account" bar */
+  .pf-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 0;
+  }
+
+  /* Sidebar becomes top user card + menu list */
+  .pf-sidebar {
+    border-radius: 0;
+    box-shadow: none;
+    position: static;
+    background: transparent;
+  }
+
+  /* User info card at top */
+  .pf-sidebar-user {
+    background: #eef2f7;
+    padding: 20px 16px;
+    border-bottom: none;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .pf-avatar-sm {
+    width: 64px;
+    height: 64px;
+    font-size: 22px;
+    background: #1f2937;
+    color: white;
+    border-radius: 50%;
+  }
+
+  /* Nav becomes full-width menu rows */
+  .pf-nav {
+    padding: 0;
+    background: white;
+  }
+
+  .pf-nav-item {
+    padding: 20px 20px;
+    border-left: none;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 16px;
+    font-weight: 500;
+    justify-content: space-between;
+    border-radius: 0;
+    color: #1f2937;
+    background: white;
+  }
+
+  .pf-nav-item::after {
+    content: '›';
+    font-size: 22px;
+    color: #9ca3af;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .pf-nav-item.logout {
+    color: #ef4444;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 0;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .pf-nav-item.logout::after { display: none; }
+  .pf-nav-item.logout i { color: #ef4444; font-size: 20px; }
+
+  /* Remove active highlight on mobile */
+  .pf-nav-item.active {
+    background: white;
+    color: #1f2937;
+    border-left: none;
+    font-weight: 500;
+  }
+
+  .pf-nav-item i {
+    font-size: 18px;
+    width: 24px;
+    color: #1f2937;
+  }
+
+  .pf-nav-item.logout i { color: #ef4444; }
+  .pf-nav-item.active i { color: #1f2937; }
+
+  /* Main content area */
+  .pf-main {
+    padding: 0 0 20px;
+  }
+
+  .pf-card {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px 16px;
+    margin-top: 8px;
+  }
+
+  .pf-card-header h2 {
+    font-size: 17px;
+  }
+
+  /* Add user name/email/phone to sidebar user section */
+  .pf-sidebar-user-info {
+    flex: 1;
+  }
+
+  .pf-sidebar-user-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 2px;
+  }
+
+  .pf-sidebar-user-email {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 0 2px;
+  }
+
+  .pf-sidebar-user-phone {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  .pf-sidebar-edit-link {
+    color: #3b82f6;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+}
+
+/* Mobile "My Account" top bar */
+.pf-mobile-account-header {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .pf-mobile-account-header {
+    display: block;
+    background: white;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+  }
+}
+
+/* Mobile back button */
+.pf-mobile-back-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .pf-mobile-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1f2937;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .pf-mobile-back-btn i {
+    font-size: 16px;
+    color: #a52a2a;
+  }
+
+  /* Hide sidebar when content is active */
+  .pf-sidebar-hidden-mobile {
+    display: none !important;
+  }
+
+  /* Hide main when menu is active */
+  .pf-main-hidden-mobile {
+    display: none !important;
+  }
+}
+
+/* ── Mobile Profile Content Page Fixes ── */
+@media (max-width: 768px) {
+  .pf-card {
+    padding: 16px;
+    margin-top: 0;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100vh;
+  }
+
+  .pf-card-header {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    padding: 14px 0 14px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .pf-card-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* Make edit button clearly visible */
+  .pf-edit-btn {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pf-edit-btn::after {
+    content: ' Edit';
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* Save/Cancel buttons */
+  .pf-save-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+
+  .pf-cancel-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  /* Profile grid — single column on mobile */
+  .pf-profile-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .pf-field-value {
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+
+  .pf-field label {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  /* Birthdate row */
+  .pf-birth-row {
+    gap: 8px;
+  }
+
+  .pf-select {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+  }
+
+  /* Gender pills */
+  .pf-gender-row {
+    gap: 8px;
+  }
+
+  .pf-gender-pill {
+    padding: 10px 20px;
+    font-size: 14px;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+/* Show/hide greeting vs section title */
+.pf-mobile-section-title { display: none; }
+.pf-desktop-greeting { display: block; }
+
+@media (max-width: 768px) {
+  .pf-mobile-section-title { display: block; }
+  .pf-desktop-greeting { display: none; }
+}
+
+/* Desktop header actions */
+.pf-header-actions-desktop { display: flex; align-items: center; gap: 8px; }
+
+/* Mobile bottom action buttons */
+.pf-bottom-actions-mobile { display: none; }
+
+@media (max-width: 768px) {
+  /* Hide top edit button on mobile */
+  .pf-header-actions-desktop { display: none; }
+
+  /* Show bottom buttons on mobile */
+  .pf-bottom-actions-mobile {
+    display: block;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .pf-bottom-edit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #1f2937;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .pf-bottom-save-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pf-bottom-save-btn {
+    width: 100%;
+    padding: 14px;
+    background: #a52a2a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .pf-bottom-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .pf-bottom-cancel-btn {
+    width: 100%;
+    padding: 12px;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Fix year dropdown overflow */
+  .pf-birth-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .pf-select-year {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* Fix birthdate overflow on mobile */
+@media (max-width: 768px) {
+  .pf-profile-grid {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  .pf-birth-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.2fr;
+    gap: 6px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .pf-birth-row .pf-select {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    font-size: 13px;
+    padding: 10px 4px 10px 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pf-birth-row .pf-select-year {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Fix gender pills overflow */
+  .pf-gender-row {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .pf-gender-pill {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 4px;
+    font-size: 13px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* Fix card overflow */
+  .pf-card {
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pf-field-full {
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .pf-sidebar-user-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .pf-sidebar-user-email,
+  .pf-sidebar-user-phone {
+    font-size: 14px;
+    color: #6b7280;
+  }
+}
+
+.pf-avatar-sm {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #374151;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.pf-avatar-sm img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

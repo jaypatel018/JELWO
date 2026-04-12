@@ -109,7 +109,7 @@ const Home = () => {
       <section>
         <div className="main-section">
           <div className="main-relative">
-            <img className="w-100 h-100" src="img/jelwo-6-slider-1.webp" alt="" />
+            <img className="w-100" src="img/jelwo-6-slider-1.webp" alt="" />
             <div className="container-section main-absolute">
               <div className="row">
                 <div className="col">

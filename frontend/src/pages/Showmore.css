@@ -188,6 +188,7 @@ select{
     grid-template-columns: repeat(4,1fr);
     gap: 24px;
     padding: 8px 0 32px;
+    align-items: start;
 }
 @media (max-width:900px){
     .grid-layout{
@@ -197,6 +198,7 @@ select{
 @media (max-width:617px){
     .grid-layout{
     grid-template-columns: repeat(2,1fr);
+    gap: 12px;
 }
 }
 @media (max-width:380px){
@@ -685,4 +687,30 @@ ul{
   color: #9ca3af;
   padding: 0 4px;
   line-height: 40px;
+}
+
+@media (max-width: 768px) {
+  .showmore-banner-img {
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+  }
+  .sm-title-section {
+    padding: 20px 16px 16px;
+  }
+  .sm-page-title {
+    font-size: 22px;
+    letter-spacing: 2px;
+  }
+  .sort-bar {
+    padding: 10px 0;
+  }
+  .sort-select {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+  .filter-info-row {
+    padding: 8px 0;
+    margin-bottom: 10px;
+  }
 }
