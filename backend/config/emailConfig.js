@@ -13,6 +13,7 @@ if (isConfigured) {
     host: 'smtp.gmail.com',
     port: 587,
     secure: false,
+    family: 4, // Force IPv4 to avoid ENETUNREACH on cloud hosts
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
