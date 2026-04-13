@@ -607,6 +607,51 @@ const Profile = () => {
                     )}
                   </div>
 
+                  {/* 8. Phone */}
+                  <div className="pf-field pf-field-half">
+                    <label style={{display:'block', fontSize:'12px', color:'#9ca3af', marginBottom:'6px', fontWeight:'500'}}>Phone Number</label>
+                    <div className={`pf-phone-wrap${phoneError ? ' pf-phone-wrap-error' : ''}`}>
+                      <div className="pf-flag-dropdown" ref={countryDropRef}>
+                        <button type="button" className="pf-flag-trigger" onClick={() => setCountryCodeOpen(o => !o)}>
+                          <img
+                            src={`https://flagcdn.com/w40/${COUNTRY_CODES.find(c => c.code === editedInfo.phoneCode)?.iso || 'in'}.png`}
+                            alt="flag" className="pf-flag-img"
+                          />
+                          <span className="pf-dialcode">{editedInfo.phoneCode}</span>
+                          <i className="fa-solid fa-chevron-down pf-flag-chevron"></i>
+                        </button>
+                        {countryCodeOpen && (
+                          <ul className="pf-flag-list">
+                            {COUNTRY_CODES.map(c => (
+                              <li key={c.code}
+                                className={`pf-flag-option ${editedInfo.phoneCode === c.code ? 'active' : ''}`}
+                                onClick={() => { setEditedInfo(p => ({...p, phoneCode: c.code})); setCountryCodeOpen(false); }}
+                              >
+                                <img src={`https://flagcdn.com/w40/${c.iso}.png`} alt={c.name} className="pf-flag-img" />
+                                <span>{c.name}</span>
+                                <span className="pf-flag-code">{c.code}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                      <div className="pf-phone-divider" />
+                      <input
+                        className="pf-phone-bare-input"
+                        value={editedInfo.phone}
+                        maxLength={15}
+                        onChange={e => {
+                          const val = e.target.value.replace(/\D/g, '').slice(0, 15);
+                          setEditedInfo(p => ({...p, phone: val}));
+                          const isIndia = editedInfo.phoneCode === '+91';
+                          setPhoneError(val && isIndia && val.length !== 10 ? 'Contact number must be exactly 10 digits' : '');
+                        }}
+                        placeholder="Enter Phone Number"
+                      />
+                    </div>
+                    {phoneError && <p className="pf-pin-msg pf-pin-error">{phoneError}</p>}
+                  </div>
+
                 </div>
               ) : (
                 editedInfo.addressLine1 || editedInfo.city
