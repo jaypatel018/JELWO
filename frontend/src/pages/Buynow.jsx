@@ -514,7 +514,12 @@ const Buynow = () => {
                 {user ? (
                   <div className='bn-user-row mt-2 mb-2'>
                     <div className='bn-user-info'>
-                      <div className='bn-user-avatar'>{user.firstName?.[0] || user.primaryEmailAddress?.emailAddress?.[0]?.toUpperCase()}</div>
+                      <div className='bn-user-avatar'>
+                        {user?.imageUrl
+                          ? <img src={user.imageUrl} alt={user.fullName || 'User'} style={{width:'100%', height:'100%', objectFit:'cover', borderRadius:'50%'}} />
+                          : (user?.firstName?.[0] || user?.primaryEmailAddress?.emailAddress?.[0] || 'U').toUpperCase()
+                        }
+                      </div>
                       <span className='bn-user-email'>{user.primaryEmailAddress?.emailAddress}</span>
                     </div>
                     <div className='bn-user-menu-wrap'>

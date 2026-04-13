@@ -12,7 +12,7 @@ import { WishlistContext } from "./Context/WhishlistContext";
 import { useCart } from "./Context/CartContext";
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import { UserButton, SignedIn, SignedOut } from '@clerk/clerk-react';
+import { useUser, SignedIn, SignedOut } from '@clerk/clerk-react';
 import { trackSearch, trackProductClick } from './utils/trackStats';
 const Navbar = () => {
     // state for admin email and password store
@@ -20,6 +20,7 @@ const Navbar = () => {
     const [password, setPassword]= useState("");
     const navigate = useNavigate();
     const { openCart,cart } = useCart();
+    const { user } = useUser();
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
     const [open2, setOpen2] = useState(false);
@@ -323,7 +324,12 @@ const Navbar = () => {
         </SignedOut>
         <SignedIn>
           <Link to='/profile' className='icon-item mobile-hide-profile' title="Profile">
-            <img src="/img/prologo.svg" alt="Profile" style={{width:'24px', height:'24px'}} />
+            {user?.imageUrl
+              ? <img src={user.imageUrl} alt={user.fullName || 'Profile'} style={{width:'30px', height:'30px', borderRadius:'50%', objectFit:'cover', border:'2px solid #e5e7eb'}} />
+              : <div style={{width:'30px', height:'30px', borderRadius:'50%', background:'#1f2937', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'13px', fontWeight:'700', border:'2px solid #e5e7eb'}}>
+                  {(user?.firstName?.[0] || user?.primaryEmailAddress?.emailAddress?.[0] || 'U').toUpperCase()}
+                </div>
+            }
           </Link>
         </SignedIn>
 
@@ -580,8 +586,12 @@ const Navbar = () => {
       <SignedIn>
         <div className="mobile-menu-item">
           <div className="mobile-menu-link-simple" onClick={() => handleNavigation('/profile')}>
-            <span className="menu-text">
-              <i className="fa-regular fa-user me-2" style={{color:'#a52a2a'}}></i>My Profile
+            <span className="menu-text" style={{display:'flex', alignItems:'center', gap:'10px'}}>
+              {user?.imageUrl
+                ? <img src={user.imageUrl} alt="Profile" style={{width:'28px', height:'28px', borderRadius:'50%', objectFit:'cover'}} />
+                : <i className="fa-regular fa-user" style={{color:'#a52a2a'}}></i>
+              }
+              My Profile
             </span>
           </div>
         </div>
