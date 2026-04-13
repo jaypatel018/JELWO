@@ -637,7 +637,13 @@ input [type="number"]::-webkit-outer-spin-button
     transition: border-color 0.2s;
 }
 .bn-input:focus { border-color: #374151; }
-.bn-input::placeholder { color: #9ca3af; }
+.bn-input::placeholder { color: transparent; }
+
+/* When used with a floating label, shift text down */
+.bn-input-label {
+    padding: 22px 16px 10px;
+}
+.bn-input-label::placeholder { color: transparent; }
 
 .bn-field-wrap { position: relative; }
 .bn-field-label {
@@ -676,44 +682,78 @@ input [type="number"]::-webkit-outer-spin-button
 
 /* Phone field */
 .bn-phone-wrap {
-    display: flex;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #eef2f7;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  overflow: visible;
+  background: #fff;
+  transition: border-color 0.2s;
 }
-.bn-phone-input-wrap {
-    flex: 1;
-    position: relative;
-    padding: 8px 40px 8px 16px;
+.bn-phone-wrap:focus-within { border-color: #8B6914; }
+
+.bn-flag-dropdown { position: relative; flex-shrink: 0; }
+
+.bn-flag-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
 }
-.bn-phone-input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    font-weight: 500;
-    color: #374151;
-    outline: none;
-    padding-top: 14px;
+
+.bn-flag-img { width: 26px; height: 18px; object-fit: cover; border-radius: 3px; display: block; }
+
+.bn-dialcode { font-size: 14px; font-weight: 600; color: #374151; }
+
+.bn-phone-divider { width: 1px; height: 22px; background: #d1d5db; flex-shrink: 0; }
+
+.bn-phone-bare-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 12px;
+  font-size: 14px;
+  color: #374151;
+  background: transparent;
+  min-width: 0;
 }
-.bn-phone-help {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #9ca3af;
-    font-size: 14px;
+.bn-phone-bare-input::placeholder { color: #9ca3af; }
+
+.bn-flag-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 999;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  min-width: 210px;
+  max-height: 240px;
+  overflow-y: auto;
 }
-.bn-flag-wrap {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0 14px;
-    background: #d1d5db;
-    cursor: pointer;
+
+.bn-flag-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #374151;
+  transition: background 0.15s;
 }
-.bn-flag-img { width: 24px; height: 16px; object-fit: cover; border-radius: 2px; }
+.bn-flag-option:hover, .bn-flag-option.active { background: #f3f4f6; }
+
+.bn-flag-code { margin-left: auto; font-size: 12px; color: #9ca3af; font-weight: 600; }
+
 
 /* ── Coupon Section ── */
 .bn-coupon-section {

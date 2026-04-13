@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Profile.css';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import axios from 'axios';
@@ -13,6 +13,23 @@ const TABS = [
   { key: 'logout',    icon: 'fa-right-from-bracket', label: 'Log Out' },
 ];
 
+const COUNTRY_CODES = [
+  { code: '+91',  iso: 'in', name: 'India' },
+  { code: '+1',   iso: 'us', name: 'USA/Canada' },
+  { code: '+44',  iso: 'gb', name: 'UK' },
+  { code: '+61',  iso: 'au', name: 'Australia' },
+  { code: '+971', iso: 'ae', name: 'UAE' },
+  { code: '+65',  iso: 'sg', name: 'Singapore' },
+  { code: '+49',  iso: 'de', name: 'Germany' },
+  { code: '+33',  iso: 'fr', name: 'France' },
+  { code: '+81',  iso: 'jp', name: 'Japan' },
+  { code: '+86',  iso: 'cn', name: 'China' },
+  { code: '+92',  iso: 'pk', name: 'Pakistan' },
+  { code: '+880', iso: 'bd', name: 'Bangladesh' },
+  { code: '+94',  iso: 'lk', name: 'Sri Lanka' },
+  { code: '+977', iso: 'np', name: 'Nepal' },
+];
+
 const Profile = () => {
   const { user, isLoaded } = useUser();
   const { signOut, openUserProfile } = useClerk();
@@ -22,12 +39,14 @@ const Profile = () => {
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [cancellingId, setCancellingId] = useState(null);
-  const invoiceRef = useRef(null);
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [editedInfo, setEditedInfo] = useState({ phone: '', addressLine1: '', addressLine2: '', postalCode: '', city: '', district: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
-  const [pinStatus, setPinStatus] = useState(null); // null | 'validating' | 'valid' | 'invalid'
+  const [editedInfo, setEditedInfo] = useState({ phone: '', phoneCode: '+91', addressLine1: '', addressLine2: '', postalCode: '', city: '', district: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
+  const [pinStatus, setPinStatus] = useState(null);
   const [pinMessage, setPinMessage] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [countryCodeOpen, setCountryCodeOpen] = useState(false);
+  const countryDropRef = useRef(null);
   const [recentlyViewed] = useState(() => {
     try { return JSON.parse(localStorage.getItem('recentlyViewed') || '[]'); } catch { return []; }
   });
@@ -37,8 +56,18 @@ const Profile = () => {
   }, [user]);
 
   useEffect(() => {
-    if (activeTab === 'orders' && user && orders.length === 0) fetchOrders();
-  }, [activeTab]);
+    if (activeTab === 'orders' && user) fetchOrders();
+  }, [activeTab, user]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (countryDropRef.current && !countryDropRef.current.contains(e.target)) {
+        setCountryCodeOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const loadProfileFromDB = async () => {
     try {
@@ -47,6 +76,7 @@ const Profile = () => {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/profile/${encodeURIComponent(email)}`);
       if (res.data) setEditedInfo({
           phone: res.data.phone || '',
+          phoneCode: res.data.phoneCode || '+91',
           addressLine1: res.data.address?.street || '',
           addressLine2: res.data.address?.addressLine2 || '',
           postalCode: res.data.address?.zipCode || '',
@@ -60,7 +90,7 @@ const Profile = () => {
           gender: res.data.gender || ''
         });
     } catch {
-      setEditedInfo({ phone: '', addressLine1: '', addressLine2: '', postalCode: '', city: '', district: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
+      setEditedInfo({ phone: '', phoneCode: '+91', addressLine1: '', addressLine2: '', postalCode: '', city: '', district: '', state: '', country: '', birthDD: '', birthMM: '', birthYYYY: '', gender: '' });
     }
   };
 
@@ -94,7 +124,6 @@ const Profile = () => {
         <td style="padding:11px 14px;font-size:14px;font-weight:600;color:#1f2937;text-align:right">₹${(p.price * p.quantity).toLocaleString('en-IN')}</td>
       </tr>`).join('');
 
-    // Build address cleanly — avoid duplication
     const addrLine = [addr.address, addr.city, addr.district, addr.state].filter(Boolean).join(', ');
     const addrLine2 = [addr.pinCode, addr.country].filter(Boolean).join(', ');
 
@@ -246,12 +275,19 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
+    // Validate phone
+    if (editedInfo.phone && editedInfo.phoneCode === '+91' && !/^\d{10}$/.test(editedInfo.phone)) {
+      setPhoneError('Contact number must be exactly 10 digits');
+      return;
+    }
+    setPhoneError('');
     setSaving(true);
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/users/profile/upsert`, {
         email: user?.primaryEmailAddress?.emailAddress,
         name: user?.fullName,
         phone: editedInfo.phone,
+        phoneCode: editedInfo.phoneCode,
         addressLine1: editedInfo.addressLine1,
         addressLine2: editedInfo.addressLine2,
         postalCode: editedInfo.postalCode,
@@ -307,7 +343,7 @@ const Profile = () => {
             <div className="pf-sidebar-user-info">
               <p className="pf-sidebar-user-name">{user?.firstName} {user?.lastName}</p>
               <p className="pf-sidebar-user-email">{user?.primaryEmailAddress?.emailAddress}</p>
-              {editedInfo.phone && <p className="pf-sidebar-user-phone">+91 {editedInfo.phone}</p>}
+              {editedInfo.phone && <p className="pf-sidebar-user-phone">{editedInfo.phoneCode} {editedInfo.phone}</p>}
             </div>
           </div>
 
@@ -338,7 +374,7 @@ const Profile = () => {
                     ? <button className="pf-edit-btn" onClick={() => setIsEditing(true)}><i className="fa-solid fa-pen-to-square"></i></button>
                     : <div className="d-flex gap-2">
                         <button className="pf-save-btn" onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save'}</button>
-                        <button className="pf-cancel-btn" onClick={() => { setIsEditing(false); loadProfileFromDB(); }}>Cancel</button>
+                        <button className="pf-cancel-btn" onClick={() => { setIsEditing(false); setPhoneError(''); loadProfileFromDB(); }}>Cancel</button>
                       </div>
                   }
                 </div>
@@ -359,8 +395,56 @@ const Profile = () => {
                 <div className="pf-field">
                   <label>Contact Number</label>
                   {isEditing
-                    ? <input className="pf-input" value={editedInfo.phone} onChange={e => setEditedInfo(p => ({...p, phone: e.target.value}))} placeholder="+91 XXXXXXXXXX" />
-                    : <div className="pf-field-value">{editedInfo.phone || '—'}</div>}
+                    ? <>
+                        <div className={`pf-phone-wrap${phoneError ? ' pf-phone-wrap-error' : ''}`}>
+                          <div className="pf-flag-dropdown" ref={countryDropRef}>
+                            <button type="button" className="pf-flag-trigger" onClick={() => setCountryCodeOpen(o => !o)}>
+                              <img
+                                src={`https://flagcdn.com/w40/${COUNTRY_CODES.find(c => c.code === editedInfo.phoneCode)?.iso || 'in'}.png`}
+                                alt="flag" className="pf-flag-img"
+                              />
+                              <span className="pf-dialcode">{editedInfo.phoneCode}</span>
+                              <i className="fa-solid fa-chevron-down pf-flag-chevron"></i>
+                            </button>
+                            {countryCodeOpen && (
+                              <ul className="pf-flag-list">
+                                {COUNTRY_CODES.map(c => (
+                                  <li key={c.code}
+                                    className={`pf-flag-option ${editedInfo.phoneCode === c.code ? 'active' : ''}`}
+                                    onClick={() => { setEditedInfo(p => ({...p, phoneCode: c.code})); setCountryCodeOpen(false); }}
+                                  >
+                                    <img src={`https://flagcdn.com/w40/${c.iso}.png`} alt={c.name} className="pf-flag-img" />
+                                    <span>{c.name}</span>
+                                    <span className="pf-flag-code">{c.code}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                          <div className="pf-phone-divider" />
+                          <input
+                            className="pf-phone-bare-input"
+                            value={editedInfo.phone}
+                            maxLength={15}
+                            onChange={e => {
+                              const val = e.target.value.replace(/\D/g, '').slice(0, 15);
+                              setEditedInfo(p => ({...p, phone: val}));
+                              const isIndia = editedInfo.phoneCode === '+91';
+                              setPhoneError(val && isIndia && val.length !== 10 ? 'Contact number must be exactly 10 digits' : '');
+                            }}
+                            placeholder="Enter Phone Number"
+                          />
+                        </div>
+                        {phoneError && <p className="pf-pin-msg pf-pin-error">{phoneError}</p>}
+                      </>
+                    : <div className="pf-field-value">
+                        {editedInfo.phone
+                          ? <span className="pf-phone-display">
+                              <img src={`https://flagcdn.com/w40/${COUNTRY_CODES.find(c=>c.code===editedInfo.phoneCode)?.iso||'in'}.png`} alt="" className="pf-flag-img-sm" />
+                              {editedInfo.phoneCode} {editedInfo.phone}
+                            </span>
+                          : '—'}
+                      </div>}
                 </div>
                 <div className="pf-field">
                   <label>Member Since</label>
@@ -419,7 +503,7 @@ const Profile = () => {
                       <button className="pf-bottom-save-btn" onClick={handleSave} disabled={saving}>
                         {saving ? 'Saving...' : 'Save Changes'}
                       </button>
-                      <button className="pf-bottom-cancel-btn" onClick={() => { setIsEditing(false); loadProfileFromDB(); }}>
+                      <button className="pf-bottom-cancel-btn" onClick={() => { setIsEditing(false); setPhoneError(''); loadProfileFromDB(); }}>
                         Cancel
                       </button>
                     </div>
@@ -444,37 +528,77 @@ const Profile = () => {
 
               {isEditing ? (
                 <div className="pf-addr-grid">
-                  <div className="pf-field pf-field-half">
-                    <label>Address Line 1</label>
-                    <input className="pf-input" placeholder="Address line 1" value={editedInfo.addressLine1} onChange={e => setEditedInfo(p => ({...p, addressLine1: e.target.value}))} />
-                  </div>
-                  <div className="pf-field pf-field-half">
-                    <div className="pf-addr2-label">
-                      <label>Address Line 2</label>
-                      <label className="pf-same-check">
-                        <input type="checkbox"
-                          checked={editedInfo.addressLine2 === editedInfo.addressLine1 && !!editedInfo.addressLine1}
-                          onChange={e => setEditedInfo(p => ({...p, addressLine2: e.target.checked ? p.addressLine1 : ''}))}
-                        />
-                        <span>Same as Address Line 1</span>
-                      </label>
+
+                  {/* 1. Address */}
+                  <div className="pf-field pf-field-full">
+                    <div className="pf-fl-wrap">
+                      <label className="pf-fl-label">Address</label>
+                      <input className="pf-input pf-fl-input" value={editedInfo.addressLine1} onChange={e => setEditedInfo(p => ({...p, addressLine1: e.target.value}))} />
                     </div>
-                    <input className="pf-input" placeholder="Address line 2" value={editedInfo.addressLine2} onChange={e => setEditedInfo(p => ({...p, addressLine2: e.target.value}))} />
                   </div>
-                  <div className="pf-field pf-field-third">
-                    <label>Postal/Zip Code</label>
-                    <input
-                      className={`pf-input ${pinStatus === 'invalid' ? 'pf-input-error' : pinStatus === 'valid' ? 'pf-input-success' : ''}`}
-                      placeholder="6-digit PIN code"
-                      maxLength={6}
-                      value={editedInfo.postalCode}
-                      onChange={e => {
-                        const val = e.target.value.replace(/\D/g, '').slice(0, 6);
-                        setEditedInfo(p => ({...p, postalCode: val}));
-                        if (val.length === 6) validatePincode(val);
-                        else { setPinStatus(null); setPinMessage(''); setEditedInfo(p => ({...p, district: ''})); }
-                      }}
-                    />
+
+                  {/* 2. Address (optional) with same-as checkbox inline */}
+                  <div className="pf-field pf-field-full">
+                    <div className="pf-fl-wrap">
+                      <label className="pf-fl-label">Apartment, suite, etc. (optional)</label>
+                      <input className="pf-input pf-fl-input" value={editedInfo.addressLine2} onChange={e => setEditedInfo(p => ({...p, addressLine2: e.target.value}))} />
+                    </div>
+                    <label className="pf-same-check mt-1">
+                      <input type="checkbox"
+                        checked={editedInfo.addressLine2 === editedInfo.addressLine1 && !!editedInfo.addressLine1}
+                        onChange={e => setEditedInfo(p => ({...p, addressLine2: e.target.checked ? p.addressLine1 : ''}))}
+                      />
+                      <span>Same as address</span>
+                    </label>
+                  </div>
+
+                  {/* 3. Country */}
+                  <div className="pf-field pf-field-full">
+                    <div className="pf-fl-wrap">
+                      <label className="pf-fl-label">Country / Region</label>
+                      <select className="pf-input pf-fl-input pf-select-full" value={editedInfo.country} onChange={e => setEditedInfo(p => ({...p, country: e.target.value}))}>
+                        <option value=""></option>
+                        {['India','United States','United Kingdom','Canada','Australia','UAE','Singapore','Germany','France','Other'].map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* 4+5. City + District */}
+                  <div className="pf-field pf-field-half">
+                    <div className="pf-fl-wrap">
+                      <label className="pf-fl-label">City / Town</label>
+                      <input className="pf-input pf-fl-input" value={editedInfo.city} onChange={e => setEditedInfo(p => ({...p, city: e.target.value}))} />
+                    </div>
+                  </div>
+                  <div className="pf-field pf-field-half">
+                    <div className="pf-fl-wrap">
+                      <label className="pf-fl-label">District</label>
+                      <input className="pf-input pf-fl-input" value={editedInfo.district} onChange={e => setEditedInfo(p => ({...p, district: e.target.value}))} />
+                    </div>
+                  </div>
+
+                  {/* 6+7. State + PIN */}
+                  <div className="pf-field pf-field-half">
+                    <div className="pf-fl-wrap">
+                      <label className="pf-fl-label">State</label>
+                      <input className="pf-input pf-fl-input" value={editedInfo.state || ''} onChange={e => setEditedInfo(p => ({...p, state: e.target.value}))} />
+                    </div>
+                  </div>
+                  <div className="pf-field pf-field-half">
+                    <div className="pf-fl-wrap">
+                      <label className="pf-fl-label">PIN code</label>
+                      <input
+                        className={`pf-input pf-fl-input ${pinStatus === 'invalid' ? 'pf-input-error' : pinStatus === 'valid' ? 'pf-input-success' : ''}`}
+                        maxLength={6}
+                        value={editedInfo.postalCode}
+                        onChange={e => {
+                          const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                          setEditedInfo(p => ({...p, postalCode: val}));
+                          if (val.length === 6) validatePincode(val);
+                          else { setPinStatus(null); setPinMessage(''); setEditedInfo(p => ({...p, district: ''})); }
+                        }}
+                      />
+                    </div>
                     {pinMessage && (
                       <p className={`pf-pin-msg ${pinStatus === 'valid' ? 'pf-pin-valid' : pinStatus === 'validating' ? 'pf-pin-validating' : 'pf-pin-error'}`}>
                         {pinStatus === 'validating' && <span className="spinner-border spinner-border-sm me-1" style={{width:'10px',height:'10px'}}></span>}
@@ -482,32 +606,7 @@ const Profile = () => {
                       </p>
                     )}
                   </div>
-                  <div className="pf-field pf-field-third">
-                    <label>Contact Number</label>
-                    <div className="pf-phone-row">
-                      <span className="pf-phone-prefix">+91 🇮🇳</span>
-                      <input className="pf-input pf-phone-input" placeholder="Contact number" value={editedInfo.phone} onChange={e => setEditedInfo(p => ({...p, phone: e.target.value}))} />
-                    </div>
-                  </div>
-                  <div className="pf-field pf-field-third">
-                    <label>City</label>
-                    <input className="pf-input" placeholder="City" value={editedInfo.city} onChange={e => setEditedInfo(p => ({...p, city: e.target.value}))} />
-                  </div>
-                  <div className="pf-field pf-field-third">
-                    <label>District</label>
-                    <input className="pf-input" placeholder="District (auto-filled from PIN)" value={editedInfo.district} onChange={e => setEditedInfo(p => ({...p, district: e.target.value}))} />
-                  </div>
-                  <div className="pf-field pf-field-half">
-                    <label>State</label>
-                    <input className="pf-input" placeholder="State (auto-filled from PIN)" value={editedInfo.state || ''} onChange={e => setEditedInfo(p => ({...p, state: e.target.value}))} />
-                  </div>
-                  <div className="pf-field pf-field-half">
-                    <label>Country</label>
-                    <select className="pf-input pf-select-full" value={editedInfo.country} onChange={e => setEditedInfo(p => ({...p, country: e.target.value}))}>
-                      <option value=""></option>
-                      {['India','United States','United Kingdom','Canada','Australia','UAE','Singapore','Germany','France','Other'].map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                  </div>
+
                 </div>
               ) : (
                 editedInfo.addressLine1 || editedInfo.city
@@ -517,7 +616,7 @@ const Profile = () => {
                         {editedInfo.addressLine1 && <p>{editedInfo.addressLine1}</p>}
                         {editedInfo.addressLine2 && editedInfo.addressLine2 !== editedInfo.addressLine1 && <p>{editedInfo.addressLine2}</p>}
                         <p>{[editedInfo.city, editedInfo.district, editedInfo.state, editedInfo.postalCode, editedInfo.country].filter(Boolean).join(', ')}</p>
-                        {editedInfo.phone && <p>📞 +91 {editedInfo.phone}</p>}
+                        {editedInfo.phone && <p>📞 {editedInfo.phoneCode} {editedInfo.phone}</p>}
                       </div>
                     </div>
                   : <div className="pf-empty">

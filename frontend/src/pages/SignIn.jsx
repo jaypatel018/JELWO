@@ -11,7 +11,8 @@ const SignInPage = () => {
       background: 'white',
     }}>
       <SignIn
-        routing="hash"
+        routing="path"
+        path="/sign-in"
         signUpUrl="/sign-up"
         forceRedirectUrl="/"
       />

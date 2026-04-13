@@ -1,12 +1,7 @@
 import Home from "./pages/Home";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -42,6 +37,16 @@ import Cartoffacnvas from "./Cartoffacnvas";
 
 // Get Clerk publishable key
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+const ClerkSetupMessage = () => (
+  <div style={{ padding: '40px', textAlign: 'center', maxWidth: '500px', margin: '0 auto' }}>
+    <h2 style={{ color: '#dc3545' }}>🔐 Clerk Not Configured</h2>
+    <p style={{ marginTop: '16px' }}>
+      Add <code>VITE_CLERK_PUBLISHABLE_KEY</code> to <code>frontend/.env</code> to enable authentication.
+      Get your key at <a href="https://clerk.com" target="_blank" rel="noopener noreferrer">clerk.com</a>.
+    </p>
+  </div>
+);
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -153,69 +158,9 @@ const App = () => {
                     <Route path="search" element={<SearchResults />} />
                     
                     {/* Sign In/Up Routes - Show setup message */}
-                    <Route 
-                      path="sign-in" 
-                      element={
-                        <div style={{padding: '40px', textAlign: 'center', maxWidth: '600px', margin: '0 auto'}}>
-                          <h1 style={{color: '#dc3545'}}>🔐 Clerk Not Configured</h1>
-                          <p style={{fontSize: '18px', marginTop: '20px'}}>
-                            To enable sign in, please configure Clerk authentication.
-                          </p>
-                          <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '8px', marginTop: '20px', textAlign: 'left'}}>
-                            <h3>Quick Setup:</h3>
-                            <ol>
-                              <li>Go to <a href="https://clerk.com" target="_blank" rel="noopener noreferrer">clerk.com</a></li>
-                              <li>Create free account</li>
-                              <li>Copy Publishable Key</li>
-                              <li>Add to <code>frontend/.env</code></li>
-                            </ol>
-                          </div>
-                        </div>
-                      } 
-                    />
-                    <Route 
-                      path="sign-up" 
-                      element={
-                        <div style={{padding: '40px', textAlign: 'center', maxWidth: '600px', margin: '0 auto'}}>
-                          <h1 style={{color: '#dc3545'}}>🔐 Clerk Not Configured</h1>
-                          <p style={{fontSize: '18px', marginTop: '20px'}}>
-                            To enable sign up, please configure Clerk authentication.
-                          </p>
-                          <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '8px', marginTop: '20px', textAlign: 'left'}}>
-                            <h3>Quick Setup:</h3>
-                            <ol>
-                              <li>Go to <a href="https://clerk.com" target="_blank" rel="noopener noreferrer">clerk.com</a></li>
-                              <li>Create free account</li>
-                              <li>Copy Publishable Key</li>
-                              <li>Add to <code>frontend/.env</code></li>
-                            </ol>
-                          </div>
-                        </div>
-                      } 
-                    />
-                    <Route 
-                      path="profile" 
-                      element={
-                        <div style={{padding: '40px', textAlign: 'center', maxWidth: '600px', margin: '0 auto'}}>
-                          <h1 style={{color: '#dc3545'}}>🔐 Authentication Required</h1>
-                          <p style={{fontSize: '18px', marginTop: '20px'}}>
-                            Please configure Clerk to access your profile.
-                          </p>
-                          <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '8px', marginTop: '20px', textAlign: 'left'}}>
-                            <h3>Setup Steps:</h3>
-                            <ol>
-                              <li>Go to <a href="https://clerk.com" target="_blank" rel="noopener noreferrer">clerk.com</a></li>
-                              <li>Create a free account</li>
-                              <li>Get your Publishable Key</li>
-                              <li>Add it to <code>frontend/.env</code></li>
-                            </ol>
-                          </div>
-                          <p style={{marginTop: '20px'}}>
-                            See <code>CLERK_SETUP_GUIDE.md</code> for detailed instructions
-                          </p>
-                        </div>
-                      } 
-                    />
+                    <Route path="sign-in" element={<ClerkSetupMessage />} />
+                    <Route path="sign-up" element={<ClerkSetupMessage />} />
+                    <Route path="profile" element={<ClerkSetupMessage />} />
                   </Route>
                 </Routes>
               </CartProvider>

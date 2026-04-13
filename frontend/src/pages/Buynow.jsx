@@ -11,6 +11,23 @@ import { useUser, useClerk } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OrderSuccess from '../components/OrderSuccess';
+
+const COUNTRY_CODES = [
+  { code: '+91',  iso: 'in', name: 'India' },
+  { code: '+1',   iso: 'us', name: 'USA/Canada' },
+  { code: '+44',  iso: 'gb', name: 'UK' },
+  { code: '+61',  iso: 'au', name: 'Australia' },
+  { code: '+971', iso: 'ae', name: 'UAE' },
+  { code: '+65',  iso: 'sg', name: 'Singapore' },
+  { code: '+49',  iso: 'de', name: 'Germany' },
+  { code: '+33',  iso: 'fr', name: 'France' },
+  { code: '+81',  iso: 'jp', name: 'Japan' },
+  { code: '+86',  iso: 'cn', name: 'China' },
+  { code: '+92',  iso: 'pk', name: 'Pakistan' },
+  { code: '+880', iso: 'bd', name: 'Bangladesh' },
+  { code: '+94',  iso: 'lk', name: 'Sri Lanka' },
+  { code: '+977', iso: 'np', name: 'Nepal' },
+];
 const Buynow = () => {
     const {selectedBuy, clearBuyNowItems, increaseBuyQty, decreaseBuyQty, removeFromBuyNow} = useBuynow();
     const {increaseQty, decreaseQty, removeFromCart} = useCart();
@@ -64,6 +81,7 @@ const Buynow = () => {
         firstName: '',
         lastName: '',
         phone: '',
+        phoneCode: '+91',
         address: '',
         apartment: '',
         city: '',
@@ -73,6 +91,16 @@ const Buynow = () => {
       
       const [loading, setLoading] = useState(false);
       const [paymentMethod, setPaymentMethod] = useState('razorpay');
+      const [phoneCodeOpen, setPhoneCodeOpen] = useState(false);
+      const phoneDropRef = useRef(null);
+
+      useEffect(() => {
+        const handleClickOutside = (e) => {
+          if (phoneDropRef.current && !phoneDropRef.current.contains(e.target)) setPhoneCodeOpen(false);
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+      }, []);
       const [successOrder, setSuccessOrder] = useState(null);
       const [fieldErrors, setFieldErrors] = useState({});
       const [mobileStep, setMobileStep] = useState(1); // 1 = summary, 2 = checkout
@@ -228,12 +256,17 @@ const Buynow = () => {
             .then(res => {
               const p = res.data;
               const addr = p.address || {};
+              // Split stored name into first/last if profile fields are empty
+              const nameParts = (p.name || '').trim().split(' ');
+              const derivedFirst = nameParts[0] || '';
+              const derivedLast = nameParts.slice(1).join(' ') || '';
               setFormData(prev => ({
                 ...prev,
                 email: p.email || prev.email,
-                firstName: p.firstName || prev.firstName,
-                lastName: p.lastName || prev.lastName,
-                phone: p.contactNumber || p.phone || prev.phone,
+                firstName: derivedFirst || user?.firstName || prev.firstName,
+                lastName: derivedLast || user?.lastName || prev.lastName,
+                phone: p.phone || prev.phone,
+                phoneCode: p.phoneCode || prev.phoneCode,
                 address: addr.street || prev.address,
                 apartment: addr.addressLine2 || prev.apartment,
                 city: addr.city || prev.city,
@@ -514,9 +547,43 @@ const Buynow = () => {
                 <h5 className="fw-bold mb-3">Delivery</h5>
                 <div className="form mt-2 mb-2">
                   <form onSubmit={handlePayment}>
-                    {/* Country/Region */}
+                    {/* 1+2. First name / Last name */}
+                    <div className="d-flex flex-column flex-sm-row gap-3 mb-3">
+                      <div className="bn-field-wrap w-100">
+                        <label className="bn-field-label">First name</label>
+                        <input type="text" name="firstName" className={`bn-input bn-input-label w-100 ${fieldErrors.firstName ? 'bn-field-error' : ''}`} value={formData.firstName} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, firstName: false})); }} required />
+                      </div>
+                      <div className="bn-field-wrap w-100">
+                        <label className="bn-field-label">Last name</label>
+                        <input type="text" name="lastName" className={`bn-input bn-input-label w-100 ${fieldErrors.lastName ? 'bn-field-error' : ''}`} value={formData.lastName} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, lastName: false})); }} required />
+                      </div>
+                    </div>
+
+                    {/* 3. Address */}
+                    <div className="bn-field-wrap bn-input-icon mb-2">
+                      <label className="bn-field-label">Address</label>
+                      <input type="text" name="address" className={`bn-input bn-input-label w-100 ${fieldErrors.address ? 'bn-field-error' : ''}`} value={formData.address} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, address: false})); }} required />
+                      <i className="fa-solid fa-magnifying-glass bn-input-icon-right"></i>
+                    </div>
+
+                    {/* Same as address checkbox */}
+                    <label className="d-flex align-items-center gap-2 mb-3" style={{fontSize:'13px', color:'#6b7280', cursor:'pointer'}}>
+                      <input type="checkbox"
+                        checked={formData.apartment === formData.address && !!formData.address}
+                        onChange={e => setFormData(p => ({...p, apartment: e.target.checked ? p.address : ''}))}
+                      />
+                      Same as address
+                    </label>
+
+                    {/* 4. Apartment (optional) */}
                     <div className="bn-field-wrap mb-3">
-                      <label className="bn-field-label">Country/Region</label>
+                      <label className="bn-field-label">Apartment, suite, etc. (optional)</label>
+                      <input type="text" name="apartment" className="bn-input bn-input-label w-100" value={formData.apartment} onChange={handleInputChange} />
+                    </div>
+
+                    {/* 5. Country */}
+                    <div className="bn-field-wrap mb-3">
+                      <label className="bn-field-label">Country / Region</label>
                       <select value={country} onChange={handleChange} className="bn-select">
                         <option value="India">India</option>
                         <option value="Algeria">Algeria</option>
@@ -527,49 +594,20 @@ const Buynow = () => {
                       </select>
                     </div>
 
-                    {/* First + Last name */}
+                    {/* 6+7. City + District */}
                     <div className="d-flex flex-column flex-sm-row gap-3 mb-3">
-                      <input type="text" name="firstName" placeholder="First name" className={`bn-input w-100 ${fieldErrors.firstName ? 'bn-field-error' : ''}`} value={formData.firstName} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, firstName: false})); }} required />
-                      <input type="text" name="lastName" placeholder="Last name" className={`bn-input w-100 ${fieldErrors.lastName ? 'bn-field-error' : ''}`} value={formData.lastName} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, lastName: false})); }} required />
+                      <div className="bn-field-wrap w-100">
+                        <label className="bn-field-label">City / Town</label>
+                        <input type="text" name="city" className={`bn-input bn-input-label w-100 ${fieldErrors.city ? 'bn-field-error' : ''}`} value={formData.city} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, city: false})); }} required />
+                      </div>
+                      <div className="bn-field-wrap w-100">
+                        <label className="bn-field-label">District</label>
+                        <input type="text" name="district" className={`bn-input bn-input-label w-100 ${pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`} value={formData.district} onChange={e => { handleInputChange(e); checkDistrictStateMatch(e.target.value, state); }} />
+                      </div>
                     </div>
 
-                    {/* Address */}
-                    <div className="bn-input-icon mb-3">
-                      <input type="text" name="address" placeholder="Address" className={`bn-input w-100 ${fieldErrors.address ? 'bn-field-error' : ''}`} value={formData.address} onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, address: false})); }} required />
-                      <i className="fa-solid fa-magnifying-glass bn-input-icon-right"></i>
-                    </div>
-
-                    {/* Apartment */}
-                    <div className="mb-3">
-                      <input type="text" name="apartment" placeholder="Apartment, suite, etc. (optional)" className="bn-input w-100" value={formData.apartment} onChange={handleInputChange} />
-                    </div>
-
-                    {/* City + District */}
+                    {/* 8+9. State + PIN */}
                     <div className="d-flex flex-column flex-sm-row gap-3 mb-3">
-                      <input
-                        type="text"
-                        name="city"
-                        placeholder="City / Town"
-                        className={`bn-input w-100 ${fieldErrors.city ? 'bn-field-error' : ''}`}
-                        value={formData.city}
-                        onChange={e => { handleInputChange(e); setFieldErrors(p => ({...p, city: false})); }}
-                        required
-                      />
-                      <input
-                        type="text"
-                        name="district"
-                        placeholder="District"
-                        className={`bn-input w-100 ${pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`}
-                        value={formData.district}
-                        onChange={e => {
-                          handleInputChange(e);
-                          checkDistrictStateMatch(e.target.value, state);
-                        }}
-                      />
-                    </div>
-
-                    {/* State + PIN */}
-                    <div className="d-flex flex-column flex-sm-row gap-3 mb-1">
                       <div className="bn-field-wrap w-100">
                         <label className="bn-field-label">State</label>
                         <select value={state} onChange={e => { handleChange1(e); checkDistrictStateMatch(formData.district, e.target.value); }} className={`bn-select ${pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`} required>
@@ -588,13 +626,13 @@ const Buynow = () => {
                           <option value="Uttar Pradesh">Uttar Pradesh</option>
                         </select>
                       </div>
-                      <div className="w-100">
+                      <div className="bn-field-wrap w-100">
+                        <label className="bn-field-label">PIN code</label>
                         <input
                           type="text"
                           name="pinCode"
-                          placeholder="PIN code"
                           maxLength={6}
-                          className={`bn-input w-100 ${fieldErrors.pinCode || pinStatus === 'invalid' || pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`}
+                          className={`bn-input bn-input-label w-100 ${fieldErrors.pinCode || pinStatus === 'invalid' || pinStatus === 'mismatch' ? 'bn-field-error' : pinStatus === 'valid' ? 'bn-field-success' : ''}`}
                           value={formData.pinCode}
                           onChange={e => {
                             const val = e.target.value.replace(/\D/g, '').slice(0, 6);
@@ -613,19 +651,43 @@ const Buynow = () => {
                         )}
                       </div>
                     </div>
-                    <div className="mb-3"></div>
 
-                    {/* Phone with India flag */}
+                    {/* Phone with country code */}
                     <div className="bn-phone-wrap mb-3">
-                      <div className="bn-phone-input-wrap">
-                        <label className="bn-field-label">Phone</label>
-                        <input type="tel" name="phone" placeholder="Phone" className="bn-phone-input" value={formData.phone} onChange={handleInputChange} />
-                        <i className="fa-regular fa-circle-question bn-phone-help"></i>
+                      <div className="bn-flag-dropdown" ref={phoneDropRef}>
+                        <button type="button" className="bn-flag-trigger" onClick={() => setPhoneCodeOpen(o => !o)}>
+                          <img
+                            src={`https://flagcdn.com/w40/${COUNTRY_CODES.find(c => c.code === formData.phoneCode)?.iso || 'in'}.png`}
+                            alt="flag" className="bn-flag-img"
+                          />
+                          <span className="bn-dialcode">{formData.phoneCode}</span>
+                          <i className="fa-solid fa-chevron-down" style={{fontSize:'9px', color:'#6b7280'}}></i>
+                        </button>
+                        {phoneCodeOpen && (
+                          <ul className="bn-flag-list">
+                            {COUNTRY_CODES.map(c => (
+                              <li key={c.code}
+                                className={`bn-flag-option ${formData.phoneCode === c.code ? 'active' : ''}`}
+                                onClick={() => { setFormData(p => ({...p, phoneCode: c.code})); setPhoneCodeOpen(false); }}
+                              >
+                                <img src={`https://flagcdn.com/w40/${c.iso}.png`} alt={c.name} className="bn-flag-img" />
+                                <span>{c.name}</span>
+                                <span className="bn-flag-code">{c.code}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
-                      <div className="bn-flag-wrap">
-                        <img src="/img/india.png" alt="IN" className="bn-flag-img" />
-                        <i className="fa-solid fa-chevron-down" style={{fontSize:'11px'}}></i>
-                      </div>
+                      <div className="bn-phone-divider" />
+                      <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Enter Phone Number"
+                        className="bn-phone-bare-input"
+                        value={formData.phone}
+                        maxLength={15}
+                        onChange={e => setFormData(p => ({...p, phone: e.target.value.replace(/\D/g,'').slice(0,15)}))}
+                      />
                     </div>
 
                     <label className="d-flex align-items-center gap-2 mb-3" style={{fontSize:'14px'}}>
