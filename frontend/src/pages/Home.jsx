@@ -355,7 +355,7 @@ const Home = () => {
         <Modal.Header closeButton />
         <Modal.Body>
           <div>
-            <div className="ps-5 pe-5">
+            <div className="modal-nl-inner">
               <h5 className="text-center">Don't miss a thing</h5>
               <div className="text-center"><h1>Join Our newsletter and get 10% off your first order</h1></div>
               <div className="search-bar">

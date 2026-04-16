@@ -111,8 +111,8 @@
     align-items: start;
 }
 @media (max-width: 900px) { .coll-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 617px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-@media (max-width: 380px) { .coll-grid { grid-template-columns: repeat(1, 1fr); } }
+@media (max-width: 617px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+@media (max-width: 380px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
 
 /* Offcanvas */
 .coll-cross { text-align: end; padding-right: 30px; cursor: pointer; }

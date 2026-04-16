@@ -8,11 +8,20 @@
 .modal-dialog { max-width: 600px !important; }
 .modal-body   { position: inherit !important; }
 .modal-header { border-bottom: none !important; }
+.modal-nl-inner { padding: 0 40px; }
+.modal-nl-inner h5 { font-size: 15px; color: #555; margin-bottom: 6px; }
+.modal-nl-inner h1 { font-size: 28px; line-height: 1.3; margin-bottom: 16px; }
 .search-bar input { width:100%; padding:10px; border-radius:50px; border:1px solid grey; outline:none; }
 .subs-btn { padding:11px 30px; border:none; background-color:brown; color:white; border-radius:50px; font-weight:500; width:100%; margin-top:10px; }
 .subrel { position:relative; }
 .subs { position:absolute; top:-11px; right:0; }
-@media (max-width:476px) { .subs { position:inherit; margin-top:10px; } }
+
+@media (max-width: 576px) {
+  .modal-nl-inner { padding: 0 12px; }
+  .modal-nl-inner h1 { font-size: 20px; }
+  .modal-nl-inner h5 { font-size: 13px; }
+  .subs { position: inherit; margin-top: 10px; }
+}
 
 /* ── Hero ── */
 .main-relative { position:relative; }
