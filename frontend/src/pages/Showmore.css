@@ -611,7 +611,7 @@ ul{
 
 .sm-title-section {
     text-align: center;
-    padding: 32px 16px 20px;
+    padding: 20px 16px;
     border-bottom: 1px solid #e5e7eb;
     margin-bottom: 8px;
 }
@@ -707,3 +707,7 @@ ul{
     margin-bottom: 10px;
   }
 }
+
+/* Layout wrappers */
+.showmore-body { width: 100%; }
+.showmore-content { width: 100%; }

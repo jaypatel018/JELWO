@@ -138,7 +138,7 @@ const resetFilters = () => {
       </div>
 
       {/*  col */}
-      <div className="row">
+      <div className="showmore-body">
         <div className="col-12 col-xl-3 d-none">
           <div className="categories p-3 border-bottom ">
             <h4>Categories</h4>
@@ -366,7 +366,7 @@ const resetFilters = () => {
             </div>
           </div>
         </div>
-        <div className="px-3 px-md-4 px-lg-5">
+        <div className="px-3 px-md-4 px-lg-5 showmore-content">
           <div>
             {/* Sort Bar */}
             <div className="sort-bar">
