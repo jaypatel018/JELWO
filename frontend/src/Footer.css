@@ -174,6 +174,10 @@
   cursor: pointer;
   text-align: left;
 }
+.ft-acc-btn span {
+  flex: 1;
+  text-align: center;
+}
 .ft-acc-body {
   padding: 8px 16px 12px !important;
   border-bottom: 1px solid #ddd0e8;
@@ -259,10 +263,10 @@
   }
 
   /* Reset link list centering on mobile */
-  .ft-link-list li { justify-content: flex-start; }
+  .ft-link-list li { justify-content: center; }
   .ft-link-list li a,
-  .ft-link-list li span { text-align: left; }
-  .ft-col-title { text-align: left; }
+  .ft-link-list li span { text-align: center; }
+  .ft-col-title { text-align: center; }
 }
 
 @media (max-width: 480px) {
