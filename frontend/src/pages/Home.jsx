@@ -98,7 +98,7 @@ const Home = () => {
   }, []);
 
   const swiperBreakpoints = {
-    320: { slidesPerView: 1 }, 450: { slidesPerView: 1 },
+    320: { slidesPerView: 2 }, 450: { slidesPerView: 2 },
     562: { slidesPerView: 2 }, 900: { slidesPerView: 3 }, 1200: { slidesPerView: 4 },
   };
 

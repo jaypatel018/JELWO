@@ -1,5 +1,5 @@
 .pc-card {
-  overflow: hidden;
+  overflow: visible;
   background: white;
 }
 
@@ -84,7 +84,7 @@
 .pc-wish .fa-solid.fa-xmark { color: #a52a2a; font-size: 20px; }
 .pc-wish:hover { color: #a52a2a; }
 
-.pc-body { padding: 12px 0 0; }
+.pc-body { padding: 12px 0 4px; }
 
 .pc-title {
   font-size: 14px;
@@ -128,7 +128,7 @@
 
 @media (max-width: 617px) {
   .pc-img-wrap { max-height: 200px; }
-  .pc-body { padding: 8px 0 0; }
+  .pc-body { padding: 8px 0 4px; }
   .pc-title { font-size: 12px; margin-bottom: 4px; padding: 0 6px; }
   .pc-price-row { gap: 4px; margin-bottom: 8px; padding: 0 6px; }
   .pc-price { font-size: 12px; }
