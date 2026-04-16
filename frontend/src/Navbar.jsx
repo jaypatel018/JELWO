@@ -55,22 +55,21 @@ const Navbar = () => {
     
     // Function to handle navigation and close offcanvas
     const handleNavigation = (path) => {
-        // Close the offcanvas
         const offcanvasElement = document.getElementById('offcanvasExample');
         if (offcanvasElement) {
-            // Try to get existing instance or create new one
-            let bsOffcanvas = window.bootstrap?.Offcanvas?.getInstance(offcanvasElement);
-            if (!bsOffcanvas && window.bootstrap?.Offcanvas) {
-                bsOffcanvas = new window.bootstrap.Offcanvas(offcanvasElement);
-            }
-            if (bsOffcanvas) {
-                bsOffcanvas.hide();
+            // Use Bootstrap's data-bs-dismiss trigger reliably
+            const closeBtn = offcanvasElement.querySelector('[data-bs-dismiss="offcanvas"]');
+            if (closeBtn) closeBtn.click();
+            else {
+                // Fallback: manually remove Bootstrap offcanvas classes
+                offcanvasElement.classList.remove('show');
+                document.body.classList.remove('offcanvas-open');
+                const backdrop = document.querySelector('.offcanvas-backdrop');
+                if (backdrop) backdrop.remove();
+                document.body.style.overflow = '';
             }
         }
-        // Small delay to ensure offcanvas closes before navigation
-        setTimeout(() => {
-            navigate(path);
-        }, 100);
+        navigate(path);
     };
     
     // Search functionality states

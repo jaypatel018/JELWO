@@ -30,16 +30,16 @@ body{
 /* Shared page title section */
 .page-title-section {
   text-align: center;
-  padding: 48px 16px 36px;
+  padding: 20px 16px;
   border-bottom: 1px solid #e5e7eb;
   margin-bottom: 0;
 }
 .page-title-section h1 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 400;
   letter-spacing: 4px;
   color: #1f2937;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 .page-title-section p {
   font-size: 13px;
@@ -51,6 +51,6 @@ body{
   text-decoration: none;
 }
 @media (max-width: 576px) {
-  .page-title-section { padding: 32px 16px 24px; }
-  .page-title-section h1 { font-size: 24px; letter-spacing: 2px; }
+  .page-title-section { padding: 14px 16px; }
+  .page-title-section h1 { font-size: 20px; letter-spacing: 2px; }
 }
