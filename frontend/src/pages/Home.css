@@ -128,7 +128,7 @@
 .mySwiper3 { width:79% !important; }
 .mySwiper1 { width:79% !important; margin-top:17px !important; }
 @media (max-width:776px) { .mySwiper3 { width:90% !important; } .mySwiper1 { width:90% !important; } }
-.swiper-wrapper { margin-top:20px; }
+.mySwiper .swiper-wrapper, .mySwiper1 .swiper-wrapper, .mySwiper3 .swiper-wrapper { margin-top:20px; }
 .prev, .next { border:1px solid black; padding:10px 20px; border-radius:50%; background-color:white; border:none; color:black; box-shadow:0 5px 6px grey; }
 .next i, .prev i { color:black; }
 .size { padding:7px 25px; border-radius:40px; margin-right:10px; }

@@ -22,7 +22,7 @@
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 16px;
     }
 
@@ -842,6 +842,11 @@
   padding: 8px 4px 16px !important;
 }
 
+.related-swiper .swiper-slide {
+  min-width: 0;
+  height: auto;
+}
+
 .related-nav-btn {
   position: absolute;
   top: 50%;
@@ -869,13 +874,6 @@
 
 .rel-prev { left: -18px; }
 .rel-next { right: -18px; }
-
-@media (max-width: 768px) {
-  .rel-prev { left: 0; }
-  .rel-next { right: 0; }
-  .related-nav-btn { width: 30px; height: 30px; font-size: 12px; }
-  .related-section { overflow: hidden; }
-}
 
 /* Video slide */
 .video-slide-wrapper {
