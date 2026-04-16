@@ -620,12 +620,12 @@ const Product = () => {
                    <h3 className="related-title">Related Products</h3>
                    <Swiper
                      spaceBetween={16}
-                     slidesPerView={3}
+                     slidesPerView={2}
                      loop={relatedProducts.length > 4}
                      navigation={{ prevEl: '.rel-prev', nextEl: '.rel-next' }}
                      modules={[Navigation, FreeMode]}
                      breakpoints={{
-                       0:   { slidesPerView: 1 },
+                       0:   { slidesPerView: 2 },
                        768: { slidesPerView: 3 },
                        1024: { slidesPerView: 4 },
                      }}

@@ -870,6 +870,13 @@
 .rel-prev { left: -18px; }
 .rel-next { right: -18px; }
 
+@media (max-width: 768px) {
+  .rel-prev { left: 0; }
+  .rel-next { right: 0; }
+  .related-nav-btn { width: 30px; height: 30px; font-size: 12px; }
+  .related-section { overflow: hidden; }
+}
+
 /* Video slide */
 .video-slide-wrapper {
   position: relative;
