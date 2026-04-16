@@ -1,6 +1,7 @@
 .pc-card {
-  overflow: visible;
+  overflow: hidden;
   background: white;
+  min-width: 0;
 }
 
 .pc-img-wrap {
@@ -84,7 +85,7 @@
 .pc-wish .fa-solid.fa-xmark { color: #a52a2a; font-size: 20px; }
 .pc-wish:hover { color: #a52a2a; }
 
-.pc-body { padding: 12px 0 4px; }
+.pc-body { padding: 12px 8px 8px; }
 
 .pc-title {
   font-size: 14px;
@@ -95,7 +96,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0 10px;
+  padding: 0;
 }
 
 .pc-price-row {
@@ -104,7 +105,7 @@
   gap: 6px;
   flex-wrap: wrap;
   margin-bottom: 10px;
-  padding: 0 10px;
+  padding: 0;
 }
 
 .pc-price  { font-size: 14px; font-weight: 600; color: #1f2937; }
@@ -128,12 +129,12 @@
 
 @media (max-width: 617px) {
   .pc-img-wrap { max-height: 200px; }
-  .pc-body { padding: 8px 0 4px; }
-  .pc-title { font-size: 12px; margin-bottom: 4px; padding: 0 6px; }
-  .pc-price-row { gap: 4px; margin-bottom: 8px; padding: 0 6px; }
+  .pc-body { padding: 8px 6px 8px; }
+  .pc-title { font-size: 12px; margin-bottom: 4px; padding: 0; }
+  .pc-price-row { gap: 4px; margin-bottom: 8px; padding: 0; }
   .pc-price { font-size: 12px; }
   .pc-orig, .pc-pct { font-size: 11px; }
-  .pc-btn { padding: 8px 6px; font-size: 12px; }
+  .pc-btn { padding: 8px 4px; font-size: 12px; }
   .pc-badge { font-size: 10px; padding: 3px 6px; top: 6px; left: 6px; }
   .pc-wish { font-size: 15px; bottom: 6px; left: 6px; }
 }

@@ -114,6 +114,8 @@
 @media (max-width: 617px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 @media (max-width: 380px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
 
+.coll-grid > * { min-width: 0; }
+
 /* Offcanvas */
 .coll-cross { text-align: end; padding-right: 30px; cursor: pointer; }
 .coll-categories-list { margin-top: 8px; max-height: 240px; overflow-y: auto; }

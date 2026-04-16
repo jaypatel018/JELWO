@@ -207,6 +207,8 @@ select{
 }
 }
 
+.grid-layout > * { min-width: 0; }
+
 .nav-tabs{
     border:none;
     padding: 0px;
