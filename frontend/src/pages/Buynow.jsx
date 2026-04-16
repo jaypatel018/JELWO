@@ -480,7 +480,7 @@ const Buynow = () => {
       {successOrder && (
         <OrderSuccess
           orderNumber={successOrder}
-          onClose={() => { setSuccessOrder(null); navigate('/profile'); }}
+          onClose={() => { setSuccessOrder(null); navigate('/profile?tab=orders'); }}
         />
       )}
        <div className='border-bottom pt-2 pb-2 ps-3 ps-md-5 d-flex align-items-center gap-3'>

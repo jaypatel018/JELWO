@@ -271,7 +271,7 @@ export const getUserByEmail = async (req, res) => {
 // Upsert user profile (create or update by email - used for Clerk users)
 export const upsertUserProfile = async (req, res) => {
   try {
-    const { email, name, phone, addressLine1, addressLine2, postalCode, city, district, state, country, birthDD, birthMM, birthYYYY, gender } = req.body;
+    const { email, name, phone, phoneCode, addressLine1, addressLine2, postalCode, city, district, state, country, birthDD, birthMM, birthYYYY, gender } = req.body;
 
     if (!email) {
       return res.status(400).json({ message: "Email is required" });
@@ -282,6 +282,7 @@ export const upsertUserProfile = async (req, res) => {
     if (user) {
       if (name) user.name = name;
       if (phone !== undefined) user.phone = phone;
+      if (phoneCode !== undefined) user.phoneCode = phoneCode;
       if (addressLine1 !== undefined) user.address = {
         ...user.address,
         street: addressLine1,
@@ -305,6 +306,7 @@ export const upsertUserProfile = async (req, res) => {
         email,
         password: await (await import('bcryptjs')).default.hash(Math.random().toString(36), 10),
         phone: phone || null,
+        phoneCode: phoneCode || '+91',
         address: {
           street: addressLine1 || '',
           addressLine2: addressLine2 || '',

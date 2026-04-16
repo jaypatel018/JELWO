@@ -114,3 +114,11 @@ textarea{
     transition: all 0.5s ease;
     margin-right: 4px;
 }
+
+.container-section {
+  padding: 16px;
+}
+
+.rm-col {
+  padding: 16px;
+}

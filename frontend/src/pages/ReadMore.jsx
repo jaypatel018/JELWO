@@ -9,8 +9,8 @@ const ReadMore = () => {
           <p><Link to="/">Home</Link> &gt; NEWS</p>
         </div>
         <div className="container-section " >
-              <div className="row p-3">
-                      <div className="col-12 col-lg-3 p-3 order-2 order-lg-1 ">
+              <div className="row">
+                      <div className="col-12 col-lg-3 rm-col order-2 order-lg-1 ">
                         <div className="read-left ">
                             <div className="input">
                                 <input type="text" placeholder="Search"/>
@@ -67,7 +67,7 @@ const ReadMore = () => {
                             </div>
                         </div>
                       </div> 
-                      <div className=" col-12 col-lg-9 p-3 order-1 order-lg-2">
+                      <div className=" col-12 col-lg-9 rm-col order-1 order-lg-2">
                         <div>
                             <div className="jelwo-img">
                               <img className="w-100 jel" src="img/jelwobanner.webp" alt=""/>

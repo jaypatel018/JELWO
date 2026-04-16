@@ -18,7 +18,7 @@ const Faq = () => {
         </div>
         <div className="question container-section">
             <div className="row justify-content-center ">
-              <div className="col-12 col-lg-3 border-end p-2 text-start p-5">
+              <div className="col-12 col-lg-3 border-end faq-col text-start">
                  <div className='mb-5'>
                     <h5 className='text-danger '>MOST COMMON</h5>
                     <h2>Questions</h2>
@@ -30,7 +30,7 @@ const Faq = () => {
                     <li className='hvr-underline-from-center'>TERM & CONDITIONS</li>
                 </ul>
               </div>
-              <div className="col-12 col-lg-9 pt-2 p-5 ">
+              <div className="col-12 col-lg-9 faq-col">
                   <div>
                     <h2>Shopping Information</h2>
                   </div>

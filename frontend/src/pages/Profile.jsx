@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './Profile.css';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const TABS = [
   { key: 'profile',   icon: 'fa-user',          label: 'My Profile' },
@@ -33,8 +33,10 @@ const COUNTRY_CODES = [
 const Profile = () => {
   const { user, isLoaded } = useUser();
   const { signOut, openUserProfile } = useClerk();
-  const [activeTab, setActiveTab] = useState('profile');
-  const [mobileView, setMobileView] = useState('menu'); // 'menu' | 'content'
+  const [searchParams] = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'profile';
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [mobileView, setMobileView] = useState(initialTab !== 'profile' ? 'content' : 'menu');
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState(null);

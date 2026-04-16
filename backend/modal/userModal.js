@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
       trim: true,
       default: null
    },
+   phoneCode: {
+      type: String,
+      trim: true,
+      default: '+91'
+   },
    
    // Email Verification
    isVerified: {

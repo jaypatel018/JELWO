@@ -1,5 +1,8 @@
 .question{
-    padding: 60px 20px;
+    padding: 16px;
+}
+.faq-col {
+    padding: 16px;
 }
 .faq-list li{
     margin: 7px 0px;
