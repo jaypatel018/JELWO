@@ -2,17 +2,31 @@ import {useState,  createContext, useContext} from 'react';
 
 const BuynowContext = createContext();
 
+const SESSION_KEY = 'buynow_items';
+
 export const BuynowProvider = ({children}) =>{
-    const [selectedBuy, setSelectedBuy] = useState([]);
-    
+    const [selectedBuy, setSelectedBuy] = useState(() => {
+      try {
+        const saved = sessionStorage.getItem(SESSION_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch {
+        return [];
+      }
+    });
+
+    const persist = (items) => {
+      setSelectedBuy(items);
+      try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(items)); } catch {}
+    };
+
   const addBuyNow = (items) => {
     // Accept either a single product object or an array
-    setSelectedBuy(Array.isArray(items) ? items : [items]);
+    persist(Array.isArray(items) ? items : [items]);
   };
 
   // Increase quantity - syncs with cart
   const increaseBuyQty = (id) => {
-    setSelectedBuy(
+    persist(
       selectedBuy.map((item) =>
         item._id === id ? { ...item, qty: (item.qty || 1) + 1 } : item
       )
@@ -21,7 +35,7 @@ export const BuynowProvider = ({children}) =>{
 
   // Decrease quantity (but not below 1) - syncs with cart
   const decreaseBuyQty = (id) => {
-    setSelectedBuy(
+    persist(
       selectedBuy.map((item) =>
         item._id === id && (item.qty || 1) > 1
           ? { ...item, qty: (item.qty || 1) - 1 }
@@ -32,15 +46,18 @@ export const BuynowProvider = ({children}) =>{
 
   // Remove item - syncs with cart
   const removeFromBuyNow = (id) => {
-    setSelectedBuy(selectedBuy.filter((item) => item._id !== id));
+    persist(selectedBuy.filter((item) => item._id !== id));
   };
 
-  const clearBuyNowItems = () => setSelectedBuy([]);
+  const clearBuyNowItems = () => {
+    setSelectedBuy([]);
+    try { sessionStorage.removeItem(SESSION_KEY); } catch {}
+  };
   
   return(
     <BuynowContext.Provider value={{ 
       selectedBuy, 
-      setSelectedBuy,
+      setSelectedBuy: persist,
       addBuyNow, 
       increaseBuyQty,
       decreaseBuyQty,
