@@ -334,7 +334,6 @@ const Profile = () => {
       </div>
 
       <div className="pf-layout">
-        {/* Sidebar — hidden on mobile when content is shown */}
         <aside className={`pf-sidebar ${mobileView === 'content' ? 'pf-sidebar-hidden-mobile' : ''}`}>
           <div className="pf-sidebar-user">
             <div className="pf-avatar-sm">

@@ -1,8 +1,22 @@
-.whishlist{
-    background-image: url("/img/about-ban.webp");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+.wl-title-section {
+    text-align: center;
+    padding: 20px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 8px;
+}
+
+.wl-page-title {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.wl-breadcrumb {
+    font-size: 13px;
+    color: #9ca3af;
+    margin: 0;
 }
 .whish-grid{
     display: grid;

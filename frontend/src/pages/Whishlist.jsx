@@ -10,9 +10,9 @@ const Whishlist = () => {
 
   return (
     <div>
-      <div className="whishlist pt-4 pb-4 text-white text-center">
-        <span><Link to="/" style={{color:'inherit',textDecoration:'none'}}>HOME</Link> - WISHLIST</span>
-        <h1 className='mt-3'>Wishlist</h1>
+      <div className="wl-title-section">
+        <h1 className="wl-page-title">WISHLIST</h1>
+        <p className="wl-breadcrumb"><Link to="/" style={{color:'inherit',textDecoration:'none'}}>Home</Link> &gt; WISHLIST</p>
       </div>
       <div className="whish-grid pt-5 pb-5">
         {wishlist.length === 0 ? (
