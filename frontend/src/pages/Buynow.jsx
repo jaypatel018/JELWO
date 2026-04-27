@@ -11,6 +11,7 @@ import { useUser, useClerk } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import OrderSuccess from '../components/OrderSuccess';
+import OrderCancelled from '../components/OrderCancelled';
 
 const COUNTRY_CODES = [
   { code: '+91',  iso: 'in', name: 'India' },
@@ -102,6 +103,7 @@ const Buynow = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
       }, []);
       const [successOrder, setSuccessOrder] = useState(null);
+      const [orderCancelled, setOrderCancelled] = useState(false);
       const [fieldErrors, setFieldErrors] = useState({});
       const [mobileStep, setMobileStep] = useState(1); // 1 = summary, 2 = checkout
       const [pinStatus, setPinStatus] = useState(null); // null | 'validating' | 'valid' | 'invalid' | 'mismatch'
@@ -458,7 +460,7 @@ const Buynow = () => {
               }
             },
             modal: {
-              ondismiss: () => setLoading(false),
+              ondismiss: () => { setLoading(false); setOrderCancelled(true); },
             },
           };
 
@@ -466,6 +468,7 @@ const Buynow = () => {
           rzp.on('payment.failed', (response) => {
             alert(`Payment failed: ${response.error.description}`);
             setLoading(false);
+            setOrderCancelled(true);
           });
           rzp.open();
 
@@ -481,6 +484,12 @@ const Buynow = () => {
         <OrderSuccess
           orderNumber={successOrder}
           onClose={() => { setSuccessOrder(null); navigate('/profile?tab=orders'); }}
+        />
+      )}
+      {orderCancelled && (
+        <OrderCancelled
+          onClose={() => setOrderCancelled(false)}
+          onRetry={() => { setOrderCancelled(false); handlePayment({ preventDefault: () => {} }); }}
         />
       )}
        <div className='border-bottom pt-2 pb-2 ps-3 ps-md-5 d-flex align-items-center gap-3'>
@@ -718,9 +727,9 @@ const Buynow = () => {
                       <span className="bn-payment-label">Pay with UPI, Cards, Net Banking, Wallets &amp; more</span>
                     </div>
                     <div className="bn-payment-logos">
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/1200px-UPI-Logo-vector.svg.png" alt="UPI" className="bn-pay-logo" />
+                      <img src="/img/UPI.png" alt="UPI" className="bn-pay-logo" />
                       <img src="/img/visa.png" alt="Visa" className="bn-pay-logo" />
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png" alt="MC" className="bn-pay-logo" />
+                      <img src="/img/bhim.png" alt="MC" className="bn-pay-logo" />
                       <img src="/img/rupay.webp" alt="RuPay" className="bn-pay-logo" />
                     </div>
                   </div>

@@ -1,0 +1,116 @@
+.oc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: ocFadeIn 0.3s ease;
+}
+
+@keyframes ocFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.oc-card {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 40px 36px;
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: ocSlideUp 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes ocSlideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.oc-circle {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 24px;
+}
+
+.oc-cross {
+  width: 90px;
+  height: 90px;
+}
+
+.oc-circle-bg {
+  stroke: #ef4444;
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: ocCircle 0.6s ease forwards 0.1s;
+}
+
+@keyframes ocCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+.oc-x {
+  stroke: #ef4444;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: ocX 0.4s ease forwards 0.65s;
+}
+
+@keyframes ocX {
+  to { stroke-dashoffset: 0; }
+}
+
+.oc-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 8px;
+}
+
+.oc-msg {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.oc-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.oc-retry-btn {
+  width: 100%;
+  padding: 13px;
+  background: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.oc-retry-btn:hover { background: #374151; }
+
+.oc-close-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.oc-close-btn:hover { background: #f9fafb; color: #374151; }
