@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import ExcelJS from "exceljs";
 import "./AdminOrders.css";
 
 const STATUS_OPTIONS = ["pending", "processing", "shipped", "delivered", "cancelled"];
@@ -43,6 +44,156 @@ const AdminOrders = () => {
 
   const statusColor = { pending: "#f59e0b", processing: "#3b82f6", shipped: "#8b5cf6", delivered: "#10b981", cancelled: "#ef4444", payment_failed: "#ef4444" };
 
+  const downloadExcel = async () => {
+    if (filtered.length === 0) {
+      alert("No orders to download");
+      return;
+    }
+
+    // Create workbook and worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Orders", {
+      views: [{ state: "frozen", ySplit: 1 }]
+    });
+
+    // Define columns
+    worksheet.columns = [
+      { header: "Sr.", key: "sr", width: 6 },
+      { header: "Order Number", key: "orderNumber", width: 18 },
+      { header: "Date", key: "date", width: 14 },
+      { header: "Customer Name", key: "customerName", width: 22 },
+      { header: "Email", key: "email", width: 28 },
+      { header: "Phone", key: "phone", width: 16 },
+      { header: "Items", key: "items", width: 8 },
+      { header: "Products", key: "products", width: 45 },
+      { header: "Subtotal (₹)", key: "subtotal", width: 14 },
+      { header: "Shipping (₹)", key: "shipping", width: 14 },
+      { header: "Total (₹)", key: "total", width: 14 },
+      { header: "Payment Method", key: "paymentMethod", width: 16 },
+      { header: "Payment Status", key: "paymentStatus", width: 16 },
+      { header: "Order Status", key: "orderStatus", width: 16 },
+      { header: "City", key: "city", width: 16 },
+      { header: "State", key: "state", width: 16 },
+      { header: "PIN", key: "pin", width: 10 },
+      { header: "Full Address", key: "fullAddress", width: 55 },
+    ];
+
+    // Style header row
+    worksheet.getRow(1).font = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
+    worksheet.getRow(1).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FF4361EE" }
+    };
+    worksheet.getRow(1).alignment = { vertical: "middle", horizontal: "center" };
+    worksheet.getRow(1).height = 25;
+    worksheet.getRow(1).border = {
+      top: { style: "thin", color: { argb: "FF000000" } },
+      bottom: { style: "thin", color: { argb: "FF000000" } },
+      left: { style: "thin", color: { argb: "FF000000" } },
+      right: { style: "thin", color: { argb: "FF000000" } }
+    };
+
+    // Add data rows
+    filtered.forEach((order, idx) => {
+      const row = worksheet.addRow({
+        sr: idx + 1,
+        orderNumber: order.orderNumber,
+        date: formatDate(order.createdAt),
+        customerName: `${order.customerInfo?.firstName || ''} ${order.customerInfo?.lastName || ''}`.trim(),
+        email: order.customerInfo?.email || '',
+        phone: order.customerInfo?.phone || '',
+        items: order.products?.length || 0,
+        products: order.products?.map(p => `${p.title} (×${p.quantity})`).join(', ') || '',
+        subtotal: order.subtotal,
+        shipping: order.shippingCost,
+        total: order.total,
+        paymentMethod: order.paymentInfo?.method?.toUpperCase() || '',
+        paymentStatus: order.paymentInfo?.status || '',
+        orderStatus: order.status,
+        city: order.shippingAddress?.city || '',
+        state: order.shippingAddress?.state || '',
+        pin: order.shippingAddress?.pinCode || '',
+        fullAddress: `${order.shippingAddress?.address || ''}, ${order.shippingAddress?.apartment || ''}, ${order.shippingAddress?.city || ''}, ${order.shippingAddress?.district || ''}, ${order.shippingAddress?.state || ''} - ${order.shippingAddress?.pinCode || ''}, ${order.shippingAddress?.country || ''}`.replace(/,\s*,/g, ',').replace(/^,\s*/, '').trim(),
+      });
+
+      // Alternating row colors
+      const rowColor = idx % 2 === 0 ? "FFF8F9FA" : "FFFFFFFF";
+      row.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: rowColor }
+      };
+
+      // Add borders to all cells
+      row.eachCell({ includeEmpty: true }, (cell) => {
+        cell.border = {
+          top: { style: "thin", color: { argb: "FFE5E7EB" } },
+          bottom: { style: "thin", color: { argb: "FFE5E7EB" } },
+          left: { style: "thin", color: { argb: "FFE5E7EB" } },
+          right: { style: "thin", color: { argb: "FFE5E7EB" } }
+        };
+        cell.alignment = { vertical: "middle", wrapText: true };
+      });
+
+      // Order Status coloring
+      const orderStatusCell = row.getCell("orderStatus");
+      const status = order.status?.toLowerCase();
+      let statusBg = "FFFFFFFF";
+      let statusFont = "FF000000";
+
+      if (status === "delivered") { statusBg = "FFD1FAE5"; statusFont = "FF065F46"; }
+      else if (status === "shipped") { statusBg = "FFE9D5FF"; statusFont = "FF6B21A8"; }
+      else if (status === "processing") { statusBg = "FFDBEAFE"; statusFont = "FF1E40AF"; }
+      else if (status === "pending") { statusBg = "FFFEF3C7"; statusFont = "FF92400E"; }
+      else if (status === "cancelled" || status === "payment_failed") { statusBg = "FFFEE2E2"; statusFont = "FF991B1B"; }
+
+      orderStatusCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: statusBg } };
+      orderStatusCell.font = { bold: true, color: { argb: statusFont } };
+      orderStatusCell.alignment = { vertical: "middle", horizontal: "center" };
+
+      // Payment Status coloring
+      const paymentStatusCell = row.getCell("paymentStatus");
+      const payStatus = order.paymentInfo?.status?.toLowerCase();
+      if (payStatus === "completed") {
+        paymentStatusCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFD1FAE5" } };
+        paymentStatusCell.font = { bold: true, color: { argb: "FF065F46" } };
+      } else {
+        paymentStatusCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFEE2E2" } };
+        paymentStatusCell.font = { bold: true, color: { argb: "FF991B1B" } };
+      }
+      paymentStatusCell.alignment = { vertical: "middle", horizontal: "center" };
+
+      // Number formatting for amounts
+      row.getCell("subtotal").numFmt = '₹#,##0.00';
+      row.getCell("subtotal").alignment = { vertical: "middle", horizontal: "right" };
+      row.getCell("subtotal").font = { bold: true };
+
+      row.getCell("shipping").numFmt = '₹#,##0.00';
+      row.getCell("shipping").alignment = { vertical: "middle", horizontal: "right" };
+      row.getCell("shipping").font = { bold: true };
+
+      row.getCell("total").numFmt = '₹#,##0.00';
+      row.getCell("total").alignment = { vertical: "middle", horizontal: "right" };
+      row.getCell("total").font = { bold: true };
+
+      // Center align for specific columns
+      row.getCell("sr").alignment = { vertical: "middle", horizontal: "center" };
+      row.getCell("items").alignment = { vertical: "middle", horizontal: "center" };
+      row.getCell("pin").alignment = { vertical: "middle", horizontal: "center" };
+    });
+
+    // Generate file
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Jelwo_Orders_${new Date().toISOString().split('T')[0]}.xlsx`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   const filtered = orders.filter(o => {
     const matchSearch =
       o.orderNumber?.toLowerCase().includes(search.toLowerCase()) ||
@@ -73,6 +224,9 @@ const AdminOrders = () => {
             <option value="all">All Status</option>
             {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
           </select>
+          <button className="ao-download-btn" onClick={downloadExcel} title="Export orders data">
+            <i className="fa-solid fa-download"></i> Export Data
+          </button>
           <div className="ao-count">Total: <strong>{filtered.length}</strong></div>
         </div>
       </div>

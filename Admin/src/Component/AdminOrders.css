@@ -26,6 +26,17 @@
 }
 .ao-filter:focus { border-color: #4361ee; }
 
+.ao-download-btn {
+  padding: 8px 16px; border: none; border-radius: 8px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  background: #10b981; color: white;
+  display: flex; align-items: center; gap: 8px;
+  transition: all 0.2s; white-space: nowrap;
+}
+.ao-download-btn:hover { background: #059669; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3); }
+.ao-download-btn:active { transform: translateY(0); }
+.ao-download-btn i { font-size: 13px; }
+
 .ao-count { font-size: 14px; color: #666; white-space: nowrap; }
 .ao-count strong { color: #4361ee; font-size: 16px; }
 
